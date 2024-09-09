@@ -10,6 +10,7 @@ import (
 )
 
 type EventListenerParams struct {
+	Chain           string  `json:"chain"`
 	Network         string  `json:"network"`
 	ContractAddress string  `json:"contract_address"`
 	ContractName    string  `json:"contract_name"`
@@ -18,6 +19,7 @@ type EventListenerParams struct {
 }
 
 var (
+	chain           string
 	network         string
 	contractAddress string
 	contractName    string
@@ -30,11 +32,18 @@ var createCmd = &cobra.Command{
 	Short: "Create a new event listener",
 	Run: func(cmd *cobra.Command, args []string) {
 		params := EventListenerParams{
+			Chain:           chain,
 			Network:         network,
 			ContractAddress: contractAddress,
 			ContractName:    contractName,
-			EventNames:      &eventNames,
-			RawABI:          &rawABI,
+		}
+
+		if rawABI != "" {
+			params.RawABI = &rawABI
+		}
+
+		if eventNames != "" {
+			params.EventNames = &eventNames
 		}
 
 		jsonData, err := json.Marshal(params)
@@ -51,21 +60,23 @@ var createCmd = &cobra.Command{
 		}
 		defer resp.Body.Close()
 
-		if resp.StatusCode == http.StatusOK {
-			fmt.Println("Event listener created successfully")
-		} else {
-			fmt.Printf("Failed to create event listener: %s\n", resp.Status)
+		if !(resp.StatusCode == http.StatusCreated || resp.StatusCode == http.StatusOK) {
+			fmt.Println("Failed to create event listener", resp.Status)
 		}
+		fmt.Printf("Successfully created event listener for contract %s", contractAddress)
+
 	},
 }
 
 func init() {
-	createCmd.Flags().StringVarP(&network, "network", "n", "", "Blockchain network (required)")
-	createCmd.Flags().StringVarP(&contractAddress, "address", "a", "", "Contract address (required)")
-	createCmd.Flags().StringVarP(&contractName, "name", "c", "", "Contract name (required)")
-	createCmd.Flags().StringVarP(&eventNames, "events", "e", "", "Comma-separated event names (optional)")
+	createCmd.Flags().StringVarP(&chain, "chain", "c", "", "Blockchain network (eg. ethereum, required)")
+	createCmd.Flags().StringVarP(&network, "network", "n", "mainnet", "Blockchain network (eg. mainnet, required)")
+	createCmd.Flags().StringVarP(&contractAddress, "address", "a", "", "Contract address (eg, 0xdAC17F958D2ee523a2206206994597C13D831ec7 required)")
+	createCmd.Flags().StringVarP(&contractName, "name", "N", "", "Contract name (eg \"USDC Token\", required)")
+	createCmd.Flags().StringVarP(&eventNames, "events", "e", "Transfer,Approval", "Comma-separated event names (optional)")
 	createCmd.Flags().StringVarP(&rawABI, "abi", "r", "", "Raw ABI (optional)")
 
+	createCmd.MarkFlagRequired("chain")
 	createCmd.MarkFlagRequired("network")
 	createCmd.MarkFlagRequired("address")
 	createCmd.MarkFlagRequired("name")

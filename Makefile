@@ -1,2 +1,2 @@
 build:
-	go build -o bin/heim-cl main.go
+	go build -o bin/heim-cli main.go
