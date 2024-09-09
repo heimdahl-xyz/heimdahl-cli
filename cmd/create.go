@@ -43,7 +43,7 @@ var createCmd = &cobra.Command{
 			return
 		}
 
-		url := fmt.Sprintf("%s/api/v1/event-listeners", host) // Use the global host variable
+		url := fmt.Sprintf("%s/v1/event-listeners", host) // Use the global host variable
 		resp, err := http.Post(url, "application/json", bytes.NewBuffer(jsonData))
 		if err != nil {
 			fmt.Println("Error making POST request:", err)

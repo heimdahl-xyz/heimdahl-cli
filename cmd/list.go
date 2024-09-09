@@ -13,7 +13,7 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all event listeners",
 	Run: func(cmd *cobra.Command, args []string) {
-		url := fmt.Sprintf("%s/api/v1/event-listeners", host) // Use the global host variable
+		url := fmt.Sprintf("%s/v1/event-listeners", host) // Use the global host variable
 		resp, err := http.Get(url)
 		if err != nil {
 			fmt.Println("Error making GET request:", err)
