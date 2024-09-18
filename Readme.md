@@ -10,7 +10,7 @@ is a command-line interface (CLI) tool written in Go.
 - **Query Indexed Blockchain Events via REST API**: Retrieve Event data already indexed on backend.
 - **Multiple Blockchain Support**: Supports Ethereum, Arbitrum, and more(in development).
 - **Event Filtering**: Filter events by block number, transaction hash, event type, or contract address.
-- **Built in Go**: Fast, portable, and efficient CLI written in Go.
+- **Built in Go**: Fast, portable, and efficient CLI.
 
 ## Installation
 
