@@ -23,11 +23,21 @@ var getCmd = &cobra.Command{
 	Short: "Get an event listener by address",
 	Run: func(cmd *cobra.Command, args []string) {
 		url := fmt.Sprintf("%s/v1/event-listeners/%s", host, address) // Use the global host variable
-		resp, err := http.Get(url)
+		req, err := http.NewRequest(http.MethodGet, url, nil)
 		if err != nil {
 			fmt.Println("Error making GET request:", err)
 			return
 		}
+
+		req.Header.Set("X-API-Key", apiKey)
+		req.Header.Set("Content-Type", "application/json")
+
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			fmt.Println("Error performing request:", err)
+			return
+		}
+
 		defer resp.Body.Close()
 
 		if resp.StatusCode != http.StatusOK {
@@ -54,5 +64,5 @@ var getCmd = &cobra.Command{
 
 func init() {
 	getCmd.Flags().StringVarP(&address, "address", "a", "", "Contract address (required)")
-	getCmd.MarkFlagRequired("address")
+	_ = getCmd.MarkFlagRequired("address")
 }

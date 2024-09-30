@@ -12,6 +12,7 @@ import (
 )
 
 type EventListenerParams struct {
+	ProjectName     string  `json:"project_name"`
 	Chain           string  `json:"chain"`
 	Network         string  `json:"network"`
 	ContractAddress string  `json:"contract_address"`
@@ -71,7 +72,17 @@ var createCmd = &cobra.Command{
 		}
 
 		url := fmt.Sprintf("%s/v1/event-listeners", host) // Use the global host variable
-		resp, err := http.Post(url, "application/json", bytes.NewBuffer(jsonData))
+
+		req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+		if err != nil {
+			fmt.Printf("Error creating post request %s:", err)
+			return
+		}
+
+		req.Header.Set("X-API-Key", apiKey)
+		req.Header.Set("Content-Type", "application/json")
+
+		resp, err := http.DefaultClient.Do(req)
 		if err != nil {
 			fmt.Println("Error making POST request:", err)
 			return

@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"net/url"
 
 	"github.com/gorilla/websocket"
@@ -24,7 +25,13 @@ var listenCmd = &cobra.Command{
 
 		// Prepare the WebSocket URL
 		wsURL := fmt.Sprintf("%s/v1/ws-listen?address=%s&events=%s", wsHost, address, url.QueryEscape(events))
-		conn, _, err := websocket.DefaultDialer.Dial(wsURL, nil)
+
+		headers := make(http.Header)
+
+		headers.Set("X-API-Key", apiKey)
+		headers.Set("Content-Type", "application/json")
+
+		conn, _, err := websocket.DefaultDialer.Dial(wsURL, headers)
 		if err != nil {
 			log.Fatal("Error connecting to WebSocket:", err)
 		}
@@ -45,7 +52,6 @@ var listenCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(listenCmd)
 
 	// Define flags
 	listenCmd.Flags().StringP("address", "a", "", "WebSocket server address")
