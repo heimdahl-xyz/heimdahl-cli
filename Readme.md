@@ -1,10 +1,10 @@
-# Heim-cli:  Realtime Event Listener & Indexer CLI
+# Heim-cli: Command line tool for Heimdahl API
 
-**EVM Event Listener & Indexer**
-is a command-line interface (CLI) tool written in Go.
+**EVM Contract deployer, indexer and listener**
+is a command-line interface (CLI) tool.
 
 ## Features
-
+- **Batch contract deployment**: Deploy multiple contracts at once to multiple EVM networks(eg. Ethereum, Arbitrum, etc). 
 - **Create Event Listeners by Contract Address**: Register Event Listener by EVM contract address or contract address and ABI.
 - **Listen to Realtime Events**: Listen to events via Websocket API.
 - **Query Indexed Blockchain Events via REST API**: Retrieve Event data already indexed on backend.
@@ -42,19 +42,22 @@ Usage:
   heim-cli [command]
 
 Available Commands:
-  completion  Generate the autocompletion script for the specified shell
-  create      Create a new event listener
-  get         Get an event listener by address
-  help        Help about any command
-  list        List all event listeners
-  listen      Listen to a WebSocket connection
+  completion     Generate the autocompletion script for the specified shell
+  create         Create a new event listener
+  get            Get an event listener by address
+  hardhat-deploy Deploy hardhat contracts
+  hardhat-init   Init hardhat project configuration
+  help           Help about any command
+  list           List all event listeners
+  listen         Listen to a WebSocket connection
 
 Flags:
+  -K, --apiKey string   API Key for connection to server
   -h, --help            help for heim-cli
   -H, --host string     Host URL for the API server (default "https://api.heimdahl.xyz")
   -W, --wsHost string   WSHost URL for the API server (default "wss://api.heimdahl.xyz")
 
-Use "heim-cli [command] --help" for more information about a command.
+Use "heim-cli [command] --help" for more information about a command.```
 ```
 
 ### Create event listener

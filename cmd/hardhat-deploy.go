@@ -11,7 +11,7 @@ import (
 
 var hardhatDeployCmd = &cobra.Command{
 	Use:   "hardhat-deploy",
-	Short: "Init hardhat project configuration",
+	Short: "Deploy hardhat contracts",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		configFile := rootFolder + "/heimdahl.json"
