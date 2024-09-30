@@ -9,24 +9,6 @@ import (
 	"os"
 )
 
-type ContractParams struct {
-	ContractName string                        `json:"contract_name"`
-	Arguments    internal.ConstructorArguments `json:"arguments"`
-}
-
-type Network struct {
-	Chain          string           `json:"chain"`
-	Network        string           `json:"network"`
-	ChainID        uint64           `json:"chain_id"`
-	PrivateKey     string           `json:"private_key"`
-	ContractParams []ContractParams `json:"contract_params"`
-}
-
-type Config struct {
-	ProjectName string    `json:"project_name"`
-	Networks    []Network `json:"networks"`
-}
-
 var (
 	rootFolder string
 	networks   string
@@ -35,12 +17,11 @@ var (
 func createFileIfNotExists(filename string) error {
 	_, err := os.Stat(filename)
 	if os.IsNotExist(err) {
-		// File does not exist, so create it
 		file, err := os.Create(filename)
 		if err != nil {
 			return fmt.Errorf("failed to create file: %w", err)
 		}
-		defer file.Close() // Ensure the file is properly closed after creation
+		defer file.Close()
 		fmt.Println("Config created:", filename)
 	} else if err != nil {
 		return fmt.Errorf("Error checking file: %w", err)
@@ -86,13 +67,13 @@ var hardhatInitCmd = &cobra.Command{
 			return
 		}
 
-		metas, err := getContractMetas(rootFolder)
+		metas, err := internal.GetContractMetas(rootFolder)
 		if err != nil {
 			log.Println("Error getting contract metas:", err)
 			return
 		}
 
-		contractParams := make([]ContractParams, 0)
+		contractParams := make([]internal.ContractParams, 0)
 		for _, met := range metas {
 			args := make([]internal.SolidityArgument, 0)
 			for _, inp := range met.ABI.Constructor.Inputs {
@@ -103,7 +84,7 @@ var hardhatInitCmd = &cobra.Command{
 				})
 			}
 
-			contractParams = append(contractParams, ContractParams{
+			contractParams = append(contractParams, internal.ContractParams{
 				ContractName: met.ContractName,
 				Arguments: internal.ConstructorArguments{
 					Inputs: args,
@@ -114,7 +95,7 @@ var hardhatInitCmd = &cobra.Command{
 
 		projectName := m["name"].(string)
 
-		var networks = []Network{
+		var networks = []internal.Network{
 			{
 				Chain:          "ethereum",
 				Network:        "localnet",
@@ -124,7 +105,7 @@ var hardhatInitCmd = &cobra.Command{
 			},
 		}
 
-		config := Config{
+		config := internal.Config{
 			ProjectName: projectName,
 			Networks:    networks,
 		}

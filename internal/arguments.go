@@ -1,7 +1,6 @@
 package internal
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"math/big"
@@ -74,96 +73,23 @@ func parseTupleArgument(components []SolidityArgument) map[string]interface{} {
 }
 
 // parseConstructorArguments takes the entire JSON and deserializes the constructor arguments.
-func parseConstructorArguments(jsonData []byte) (ConstructorArguments, error) {
-	var args ConstructorArguments
-	err := json.Unmarshal(jsonData, &args)
-	if err != nil {
-		return args, err
-	}
-	return args, nil
-}
+//func parseConstructorArguments(jsonData []byte) (ConstructorArguments, error) {
+//	var args ConstructorArguments
+//	err := json.Unmarshal(jsonData, &args)
+//	if err != nil {
+//		return args, err
+//	}
+//	return args, nil
+//}
 
 // printConstructorArguments prints all constructor arguments in a readable format.
-func printConstructorArguments(args ConstructorArguments) {
-	fmt.Println("Parsed Constructor Arguments:")
-	for _, arg := range args.Inputs {
-		vv, err := parseSolidityArgument(arg)
-		if err != nil {
-			log.Fatalf("Failed to parse argument: %v", err)
-		}
-		fmt.Printf("Name: %s, Type: %s, Value: %v\n", arg.Name, arg.Type, vv)
-	}
-}
-
-//func main() {
-//	// Example JSON configuration for the Solidity constructor arguments
-//	jsonConfig := `{
-//		"constructorArguments": [
-//			{
-//				"name": "_num",
-//				"type": "uint256",
-//				"value": 42
-//			},
-//			{
-//				"name": "_owner",
-//				"type": "address",
-//				"value": "0x1234567890abcdef1234567890abcdef12345678"
-//			},
-//			{
-//				"name": "_isActive",
-//				"type": "bool",
-//				"value": true
-//			},
-//			{
-//				"name": "_greeting",
-//				"type": "string",
-//				"value": "Hello, Ethereum!"
-//			},
-//			{
-//				"name": "_data",
-//				"type": "bytes",
-//				"value": "0x68656c6c6f"
-//			},
-//			{
-//				"name": "_scores",
-//				"type": "uint256[]",
-//				"value": [10, 20, 30, 40]
-//			},
-//			{
-//				"name": "_names",
-//				"type": "string[]",
-//				"value": ["Alice", "Bob", "Charlie"]
-//			},
-//			{
-//				"name": "_person",
-//				"type": "tuple",
-//				"components": [
-//					{
-//						"name": "name",
-//						"type": "string",
-//						"value": "Alice"
-//					},
-//					{
-//						"name": "age",
-//						"type": "uint256",
-//						"value": 30
-//					},
-//					{
-//						"name": "wallet",
-//						"type": "address",
-//						"value": "0xabcdefabcdefabcdefabcdefabcdefabcdefabcdef"
-//					}
-//				]
-//			}
-//		]
-//	}`
-//
-//	// Parse the JSON configuration
-//	args, err := parseConstructorArguments([]byte(jsonConfig))
-//	if err != nil {
-//		log.Fatalf("Failed to parse constructor arguments: %v", err)
+//func printConstructorArguments(args ConstructorArguments) {
+//	fmt.Println("Parsed Constructor Arguments:")
+//	for _, arg := range args.Inputs {
+//		vv, err := parseSolidityArgument(arg)
+//		if err != nil {
+//			log.Fatalf("Failed to parse argument: %v", err)
+//		}
+//		fmt.Printf("Name: %s, Type: %s, Value: %v\n", arg.Name, arg.Type, vv)
 //	}
-//
-//	// Print the parsed arguments
-//	printConstructorArguments(args)
 //}
