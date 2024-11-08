@@ -19,8 +19,8 @@ type ContractInfo struct {
 var address string
 
 var getCmd = &cobra.Command{
-	Use:   "get",
-	Short: "Get an event listener by address",
+	Use:   "show",
+	Short: "Show an event listener by address",
 	Run: func(cmd *cobra.Command, args []string) {
 		url := fmt.Sprintf("%s/v1/event-listeners/%s", getHost(), address) // Use the global host variable
 		req, err := http.NewRequest(http.MethodGet, url, nil)

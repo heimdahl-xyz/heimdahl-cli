@@ -11,7 +11,7 @@ import (
 
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "List all event listeners",
+	Short: "List all event listener streams",
 	Run: func(cmd *cobra.Command, args []string) {
 		url := fmt.Sprintf("%s/v1/event-listeners", getHost()) // Use the global host variable
 

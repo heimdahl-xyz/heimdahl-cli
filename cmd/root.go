@@ -17,9 +17,9 @@ var rootCmd = &cobra.Command{
 	Short: "A CLI client for interacting with the Heimdahl event listener API",
 }
 
-var listenerCmd = &cobra.Command{
-	Use:   "listener",
-	Short: "Listener subcommands",
+var streamCmd = &cobra.Command{
+	Use:   "stream",
+	Short: "Stream subcommands",
 }
 
 func Execute() {
@@ -61,10 +61,10 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&apiKey, "apiKey", "K", "", "API Key for connection to server")
 
 	// Add subcommands here
-	listenerCmd.AddCommand(createCmd)
-	listenerCmd.AddCommand(getCmd)
-	listenerCmd.AddCommand(listCmd)
+	streamCmd.AddCommand(addCmd)
+	streamCmd.AddCommand(getCmd)
+	streamCmd.AddCommand(listCmd)
+	streamCmd.AddCommand(listenCmd)
 
-	rootCmd.AddCommand(listenerCmd)
-	rootCmd.AddCommand(listenCmd)
+	rootCmd.AddCommand(streamCmd)
 }

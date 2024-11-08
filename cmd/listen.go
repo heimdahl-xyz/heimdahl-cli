@@ -13,8 +13,7 @@ import (
 // listenCmd represents the listen command
 var listenCmd = &cobra.Command{
 	Use:   "listen",
-	Short: "Listen to a WebSocket connection",
-	Long:  `This command connects to a WebSocket server and listens for events.`,
+	Short: "Listen to a stream of events from a WebSocket server",
 	Run: func(cmd *cobra.Command, args []string) {
 		address, _ := cmd.Flags().GetString("address")
 		events, _ := cmd.Flags().GetString("events")

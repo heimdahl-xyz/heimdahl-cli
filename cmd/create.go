@@ -31,9 +31,9 @@ var (
 	rawABIFile      string
 )
 
-var createCmd = &cobra.Command{
-	Use:   "create",
-	Short: "Create a new event listener",
+var addCmd = &cobra.Command{
+	Use:   "add",
+	Short: "Add a new event listener stream",
 	Run: func(cmd *cobra.Command, args []string) {
 		params := EventListenerParams{
 			Chain:           chain,
@@ -99,16 +99,16 @@ var createCmd = &cobra.Command{
 }
 
 func init() {
-	createCmd.Flags().StringVarP(&chain, "chain", "c", "", "Blockchain network (eg. ethereum, required)")
-	createCmd.Flags().StringVarP(&network, "network", "n", "mainnet", "Blockchain network (eg. mainnet, required)")
-	createCmd.Flags().StringVarP(&contractAddress, "address", "a", "", "Contract address (eg, 0xdAC17F958D2ee523a2206206994597C13D831ec7 required)")
-	createCmd.Flags().StringVarP(&contractName, "name", "N", "", "Contract name (eg \"USDC Token\", required)")
-	createCmd.Flags().StringVarP(&eventNames, "events", "e", "", "Comma-separated event names (optional)")
-	createCmd.Flags().StringVarP(&rawABI, "abi", "r", "", "Raw ABI (optional)")
-	createCmd.Flags().StringVarP(&rawABIFile, "abi_file", "f", "", "Raw ABI file path (optional)")
+	addCmd.Flags().StringVarP(&chain, "chain", "c", "", "Blockchain network (eg. ethereum, required)")
+	addCmd.Flags().StringVarP(&network, "network", "n", "mainnet", "Blockchain network (eg. mainnet, required)")
+	addCmd.Flags().StringVarP(&contractAddress, "address", "a", "", "Contract address (eg, 0xdAC17F958D2ee523a2206206994597C13D831ec7 required)")
+	addCmd.Flags().StringVarP(&contractName, "name", "N", "", "Contract name (eg \"USDC Token\", required)")
+	addCmd.Flags().StringVarP(&eventNames, "events", "e", "", "Comma-separated event names (optional)")
+	addCmd.Flags().StringVarP(&rawABI, "abi", "r", "", "Raw ABI (optional)")
+	addCmd.Flags().StringVarP(&rawABIFile, "abi_file", "f", "", "Raw ABI file path (optional)")
 
-	createCmd.MarkFlagRequired("chain")
-	createCmd.MarkFlagRequired("network")
-	createCmd.MarkFlagRequired("address")
-	createCmd.MarkFlagRequired("name")
+	addCmd.MarkFlagRequired("chain")
+	addCmd.MarkFlagRequired("network")
+	addCmd.MarkFlagRequired("address")
+	addCmd.MarkFlagRequired("name")
 }
