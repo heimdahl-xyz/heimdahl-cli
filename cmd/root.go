@@ -8,12 +8,18 @@ import (
 
 var (
 	host   string // Global host variable
-	wsHost string
+	secure bool
 	apiKey string
 )
+
 var rootCmd = &cobra.Command{
-	Use:   "heim-cli",
+	Use:   "heimdahl",
 	Short: "A CLI client for interacting with the Heimdahl event listener API",
+}
+
+var listenerCmd = &cobra.Command{
+	Use:   "listener",
+	Short: "Listener subcommands",
 }
 
 func Execute() {
@@ -23,18 +29,42 @@ func Execute() {
 	}
 }
 
+func getHost() string {
+	if secure {
+		return "https://" + host
+	} else {
+		return "http://" + host
+	}
+}
+
+func getWsHost() string {
+	if secure {
+		return "wss://" + host
+	} else {
+		return "ws://" + host
+	}
+}
+
+func getApiKey()string {
+	apk := os.Getenv("HEIMDAHL_API_KEY")
+	if apk == "" {
+		apk = apiKey
+	}
+	return apk
+}
+
+
 func init() {
 	// Add a global flag for host
-	rootCmd.PersistentFlags().StringVarP(&host, "host", "H", "https://api.heimdahl.xyz", "Host URL for the API server")
-	rootCmd.PersistentFlags().StringVarP(&wsHost, "wsHost", "W", "wss://api.heimdahl.xyz", "WSHost URL for the API server")
+	rootCmd.PersistentFlags().StringVarP(&host, "host", "H", "api.heimdahl.xyz", "Host URL for the API server")
+	rootCmd.PersistentFlags().BoolVar(&secure, "secure", true,  "Use secure connection to server")
 	rootCmd.PersistentFlags().StringVarP(&apiKey, "apiKey", "K", "", "API Key for connection to server")
 
 	// Add subcommands here
-	rootCmd.AddCommand(createCmd)
-	rootCmd.AddCommand(getCmd)
-	rootCmd.AddCommand(listCmd)
-	rootCmd.AddCommand(listenCmd)
-	rootCmd.AddCommand(hardhatInitCmd)
-	rootCmd.AddCommand(hardhatDeployCmd)
+	listenerCmd.AddCommand(createCmd)
+	listenerCmd.AddCommand(getCmd)
+	listenerCmd.AddCommand(listCmd)
 
+	rootCmd.AddCommand(listenerCmd)
+	rootCmd.AddCommand(listenCmd)
 }

@@ -24,11 +24,11 @@ var listenCmd = &cobra.Command{
 		}
 
 		// Prepare the WebSocket URL
-		wsURL := fmt.Sprintf("%s/v1/ws-listen?address=%s&events=%s", wsHost, address, url.QueryEscape(events))
+		wsURL := fmt.Sprintf("%s/v1/ws-listen?address=%s&events=%s", getWsHost(), address, url.QueryEscape(events))
 
 		headers := make(http.Header)
 
-		headers.Set("X-API-Key", apiKey)
+		headers.Set("X-API-Key", getApiKey())
 		headers.Set("Content-Type", "application/json")
 
 		conn, _, err := websocket.DefaultDialer.Dial(wsURL, headers)

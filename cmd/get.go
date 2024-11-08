@@ -22,14 +22,14 @@ var getCmd = &cobra.Command{
 	Use:   "get",
 	Short: "Get an event listener by address",
 	Run: func(cmd *cobra.Command, args []string) {
-		url := fmt.Sprintf("%s/v1/event-listeners/%s", host, address) // Use the global host variable
+		url := fmt.Sprintf("%s/v1/event-listeners/%s", getHost(), address) // Use the global host variable
 		req, err := http.NewRequest(http.MethodGet, url, nil)
 		if err != nil {
 			fmt.Println("Error making GET request:", err)
 			return
 		}
 
-		req.Header.Set("X-API-Key", apiKey)
+		req.Header.Set("X-API-Key", getApiKey())
 		req.Header.Set("Content-Type", "application/json")
 
 		resp, err := http.DefaultClient.Do(req)

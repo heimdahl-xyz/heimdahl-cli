@@ -71,7 +71,7 @@ var createCmd = &cobra.Command{
 			return
 		}
 
-		url := fmt.Sprintf("%s/v1/event-listeners", host) // Use the global host variable
+		url := fmt.Sprintf("%s/v1/event-listeners", getHost()) // Use the global host variable
 
 		req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
 		if err != nil {
@@ -79,7 +79,7 @@ var createCmd = &cobra.Command{
 			return
 		}
 
-		req.Header.Set("X-API-Key", apiKey)
+		req.Header.Set("X-API-Key", getApiKey())
 		req.Header.Set("Content-Type", "application/json")
 
 		resp, err := http.DefaultClient.Do(req)

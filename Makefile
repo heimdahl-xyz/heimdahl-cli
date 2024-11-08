@@ -1,4 +1,4 @@
 build:
-	go build -o bin/heim-cli main.go
+	go build -o bin/heimdahl main.go
 install:
-	mv ./bin/heim-cli ${GOBIN}
+	mv ./bin/heimdahl ${GOBIN}

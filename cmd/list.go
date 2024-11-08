@@ -13,7 +13,7 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all event listeners",
 	Run: func(cmd *cobra.Command, args []string) {
-		url := fmt.Sprintf("%s/v1/event-listeners", host) // Use the global host variable
+		url := fmt.Sprintf("%s/v1/event-listeners", getHost()) // Use the global host variable
 
 		req, err := http.NewRequest("GET", url, nil)
 		if err != nil {
@@ -21,7 +21,7 @@ var listCmd = &cobra.Command{
 			return
 		}
 
-		req.Header.Set("X-API-Key", apiKey)
+		req.Header.Set("X-API-Key", getApiKey())
 		req.Header.Set("Content-Type", "application/json")
 
 		resp, err := http.DefaultClient.Do(req)
