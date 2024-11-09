@@ -1,19 +1,20 @@
-package cmd
+package contract
 
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/heimdahl-xyz/heimdahl-cli/config"
 	"io"
 	"net/http"
 
 	"github.com/spf13/cobra"
 )
 
-var listCmd = &cobra.Command{
+var ListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all event listener streams",
 	Run: func(cmd *cobra.Command, args []string) {
-		url := fmt.Sprintf("%s/v1/event-listeners", getHost()) // Use the global host variable
+		url := fmt.Sprintf("%s/v1/contracts", config.GetHost()) // Use the global host variable
 
 		req, err := http.NewRequest("GET", url, nil)
 		if err != nil {
@@ -21,7 +22,7 @@ var listCmd = &cobra.Command{
 			return
 		}
 
-		req.Header.Set("X-API-Key", getApiKey())
+		req.Header.Set("X-API-Key", config.GetApiKey())
 		req.Header.Set("Content-Type", "application/json")
 
 		resp, err := http.DefaultClient.Do(req)
@@ -48,9 +49,21 @@ var listCmd = &cobra.Command{
 			fmt.Println("Error unmarshalling JSON:", err)
 			return
 		}
+		// First print header
+		fmt.Printf("\n%-10s %-15s %-42s\n",
+			"NETWORK",
+			"CONTRACT NAME",
+			"CONTRACT ADDRESS")
+		fmt.Println("-------------------------------------------------------------------------------")
 
+		// Then data rows
 		for _, contractInfo := range contractInfos {
-			fmt.Printf("Network: %s\nContract Name: %s\nContract Address: %s\n\n", contractInfo.Network, contractInfo.ContractName, contractInfo.ContractAddress)
+			fmt.Printf("%-10s | %-10s | %-15s | %-42s\n",
+				contractInfo.Chain,
+				contractInfo.Network,
+				contractInfo.ContractName,
+				contractInfo.ContractAddress)
 		}
+		fmt.Println()
 	},
 }

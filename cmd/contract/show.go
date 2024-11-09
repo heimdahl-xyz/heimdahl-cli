@@ -1,8 +1,9 @@
-package cmd
+package contract
 
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/heimdahl-xyz/heimdahl-cli/config"
 	"io"
 	"net/http"
 
@@ -10,6 +11,7 @@ import (
 )
 
 type ContractInfo struct {
+	Chain           string `json:"chain"`
 	Network         string `json:"network"`
 	ContractName    string `json:"contract_name"`
 	ContractAddress string `json:"contract_address"`
@@ -18,18 +20,18 @@ type ContractInfo struct {
 
 var address string
 
-var getCmd = &cobra.Command{
+var ShowCmd = &cobra.Command{
 	Use:   "show",
 	Short: "Show an event listener by address",
 	Run: func(cmd *cobra.Command, args []string) {
-		url := fmt.Sprintf("%s/v1/event-listeners/%s", getHost(), address) // Use the global host variable
+		url := fmt.Sprintf("%s/v1/contracts/%s", config.GetHost(), address) // Use the global host variable
 		req, err := http.NewRequest(http.MethodGet, url, nil)
 		if err != nil {
 			fmt.Println("Error making GET request:", err)
 			return
 		}
 
-		req.Header.Set("X-API-Key", getApiKey())
+		req.Header.Set("X-API-Key", config.GetApiKey())
 		req.Header.Set("Content-Type", "application/json")
 
 		resp, err := http.DefaultClient.Do(req)
@@ -63,6 +65,6 @@ var getCmd = &cobra.Command{
 }
 
 func init() {
-	getCmd.Flags().StringVarP(&address, "address", "a", "", "Contract address (required)")
-	_ = getCmd.MarkFlagRequired("address")
+	ShowCmd.Flags().StringVarP(&address, "address", "a", "", "Contract address (required)")
+	_ = ShowCmd.MarkFlagRequired("address")
 }
