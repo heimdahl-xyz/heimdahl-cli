@@ -1,4 +1,4 @@
-package cmd
+package stream
 
 import (
 	"encoding/json"
@@ -88,8 +88,6 @@ var ListenCmd = &cobra.Command{
 			log.Fatal("Error connecting to WebSocket:", err)
 		}
 		defer conn.Close()
-
-		//log.Println("Connected to WebSocket:", wsURL)
 
 		// Define headers
 		theaders := []string{"CHAIN", "NETWORK", "BLOCK#", "BLOCK_HASH", "TIMESTAMP", "CONTRACT", "TRANSACTION_HASH", "EVENT_DATA"}

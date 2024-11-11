@@ -4,6 +4,7 @@ import (
 	"fmt"
 	chain "github.com/heimdahl-xyz/heimdahl-cli/cmd/chains"
 	"github.com/heimdahl-xyz/heimdahl-cli/cmd/contract"
+	"github.com/heimdahl-xyz/heimdahl-cli/cmd/stream"
 	"github.com/heimdahl-xyz/heimdahl-cli/config"
 	"github.com/spf13/cobra"
 	"os"
@@ -29,6 +30,5 @@ func init() {
 
 	RootCmd.AddCommand(contract.ContractCmd)
 	RootCmd.AddCommand(chain.ChainCmd)
-	RootCmd.AddCommand(ListenCmd)
-	RootCmd.AddCommand(ReplayCmd)
+	RootCmd.AddCommand(stream.StreamCmd)
 }
