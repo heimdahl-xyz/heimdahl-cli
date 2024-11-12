@@ -4,12 +4,9 @@
 is a command-line interface (CLI) tool.
 
 ## Features
-- **Batch contract deployment**: Deploy multiple contracts at once to multiple EVM networks(eg. Ethereum, Arbitrum, etc). 
-- **Create Event Listeners by Contract Address**: Register Event Listener by EVM contract address or contract address and ABI.
 - **Listen to Realtime Events**: Listen to events via Websocket API.
 - **Query Indexed Blockchain Events via REST API**: Retrieve Event data already indexed on backend.
 - **Multiple Blockchain Support**: Supports Ethereum, Arbitrum, and more(in development).
-- **Event Filtering**: Filter events by block number, transaction hash, event type, or contract address.
 - **Built in Go**: Fast, portable, and efficient CLI.
 
 ## Installation
