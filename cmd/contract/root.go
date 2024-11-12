@@ -6,11 +6,11 @@ import (
 
 var ContractCmd = &cobra.Command{
 	Use:   "contract",
-	Short: "Stream subcommands",
+	Short: "Contract subcommands",
 }
 
 func init() {
-	ContractCmd.AddCommand(AddCmd)
+	//ContractCmd.AddCommand(AddCmd)
 	ContractCmd.AddCommand(ShowCmd)
 	ContractCmd.AddCommand(ListCmd)
 }

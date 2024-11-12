@@ -6,7 +6,6 @@ import (
 	"github.com/heimdahl-xyz/heimdahl-cli/config"
 	"log"
 	"net/http"
-	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -42,13 +41,6 @@ func renderEventTable(event map[string]interface{}) {
 		chain, network, blockNum, blockHash, timestamp, contract, strings.Join(eventData, ", "))
 }
 
-func truncateString(s string, length int) string {
-	if len(s) <= length {
-		return s
-	}
-	return s[:length-3] + "..."
-}
-
 func isMetaField(field string) bool {
 	metaFields := map[string]bool{
 		"chain":           true,
@@ -68,14 +60,15 @@ var ListenCmd = &cobra.Command{
 	Use:   "listen",
 	Short: "Listen to events contract",
 	Run: func(cmd *cobra.Command, args []string) {
-		addresses, _ := cmd.Flags().GetString("addresses")
+		address, _ := cmd.Flags().GetString("address")
 		event, _ := cmd.Flags().GetString("event")
 
-		if addresses == "" {
+		if address == "" {
 			log.Fatal("Address must be provided")
 		}
+
 		// Prepare the WebSocket URL
-		wsURL := fmt.Sprintf("%s/v1/listen?addresses=%s&event=%s", config.GetWsHost(), addresses, url.QueryEscape(event))
+		wsURL := fmt.Sprintf("%s/v1/listen?address=%s&event=%s", config.GetWsHost(), address, event)
 
 		//log.Println(wsURL)
 		headers := make(http.Header)
@@ -129,6 +122,6 @@ var ListenCmd = &cobra.Command{
 func init() {
 
 	// Define flags
-	ListenCmd.Flags().StringP("addresses", "a", "", "Contract address to listen to")
+	ListenCmd.Flags().StringP("address", "a", "", "Contract address to listen to")
 	ListenCmd.Flags().StringP("event", "e", "", "Comma-separated list of events to subscribe to")
 }
