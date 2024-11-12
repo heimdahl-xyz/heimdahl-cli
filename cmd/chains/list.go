@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/heimdahl-xyz/heimdahl-cli/config"
 	"io"
-	"log"
 	"net/http"
 
 	"github.com/spf13/cobra"
@@ -50,8 +49,6 @@ var ListCmd = &cobra.Command{
 			fmt.Println("Error unmarshalling JSON:", err)
 			return
 		}
-
-		log.Println("Chain Infos: ", chainInfos)
 
 		fmt.Printf("\n%-10s %-10s %-8s\n", "CHAIN", "NETWORK", "CHAIN ID")
 		fmt.Println("--------------------------------")

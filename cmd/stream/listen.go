@@ -64,7 +64,7 @@ var ListenCmd = &cobra.Command{
 		event, _ := cmd.Flags().GetString("event")
 
 		if address == "" {
-			log.Fatal("Address must be provided")
+			log.Fatal("address must be provided")
 		}
 
 		// Prepare the WebSocket URL
@@ -107,7 +107,6 @@ var ListenCmd = &cobra.Command{
 				return
 			}
 			var event map[string]interface{}
-
 			err = json.Unmarshal(message, &event)
 			if err != nil {
 				log.Println("Error unmarshalling message:", err)

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/heimdahl-xyz/heimdahl-cli/config"
 	"github.com/spf13/cobra"
+	"io"
 	"log"
 	"net/http"
 	"strconv"
@@ -77,8 +78,13 @@ var ReplayCmd = &cobra.Command{
 			log.Fatalf("unable to retrieve events %s", err)
 		}
 
+		b, err := io.ReadAll(resp.Body)
+
+		log.Println("Response: ", string(b))
 		var details EventDetails
-		err = json.NewDecoder(resp.Body).Decode(&details)
+		err = json.Unmarshal(b, &details)
+
+		//err = json.NewDecoder(resp.Body).Decode(&details)
 		if err != nil {
 			log.Fatalf("unable to parse details %s", err)
 		}
