@@ -60,9 +60,11 @@ Use "heimdahl [command] --help" for more information about a command.
 ➜  heimdahl-cli git:(master) ✗ bin/heimdahl stream listen   --address=0xdAC17F958D2ee523a2206206994597C13D831ec7 --event=Transfer
 
 CHAIN      | NETWORK    | BLOCK#   | BLOCK_HASH      | TIMESTAMP           | CONTRACT        | TRANSACTION_HASH | EVENT_DATA                                  
-------------------------------------------------------------------------------------------------------------------------                                      ethereum   | mainnet    | 21172635 | 0x1f934caba9a749257dd2d3492087ac03d8544a64c115159011353a09e9f0811e | 2024-11-12 15:56:13 | 0xdAC17F958D2ee523a22062069945
-97C13D831ec7 | to: 0x6c207dCD2c7bD0b1f6cC5Cb3319D54662a1a62a4, transactionIndex: 7, value: 2.051946238e+09, from: 0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3  ethereum   | mainnet    | 21172635 | 0x1f934caba9a749257dd2d3492087ac03d8544a64c115159011353a09e9f0811e | 2024-11-12 15:56:13 | 0xdAC17F958D2ee523a22062069945
-97C13D831ec7 | from: 0x0d4a11d5EEaaC28EC3F61d100daF4d40471f1852, transactionIndex: 10, to: 0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD, value: 1.345181186e+09 ethereum   | mainnet    | 21172635 | 0x1f934caba9a749257dd2d3492087ac03d8544a64c115159011353a09e9f0811e | 2024-11-12 15:56:13 | 0xdAC17F958D2ee523a22062069945
+------------------------------------------------------------------------------------------------------------------------                      ethereum   | mainnet    | 21172635 | 0x1f934caba9a749257dd2d3492087ac03d8544a64c115159011353a09e9f0811e | 2024-11-12 15:56:13 | 0xdAC17F958D2ee523a22062069945
+97C13D831ec7 | to: 0x6c207dCD2c7bD0b1f6cC5Cb3319D54662a1a62a4, transactionIndex: 7, value: 2.051946238e+09, from: 0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3
+ethereum   | mainnet    | 21172635 | 0x1f934caba9a749257dd2d3492087ac03d8544a64c115159011353a09e9f0811e | 2024-11-12 15:56:13 | 0xdAC17F958D2ee523a22062069945
+97C13D831ec7 | from: 0x0d4a11d5EEaaC28EC3F61d100daF4d40471f1852, transactionIndex: 10, to: 0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD, value: 1.345181186e+09 
+ethereum   | mainnet    | 21172635 | 0x1f934caba9a749257dd2d3492087ac03d8544a64c115159011353a09e9f0811e | 2024-11-12 15:56:13 | 0xdAC17F958D2ee523a22062069945
 97C13D831ec7 | to: 0x480f0D4887eD4F16D2299031dffEc90782826269, from: 0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3, value: 2.4994062e+07, transactionIndex: 7  
 ```
 
