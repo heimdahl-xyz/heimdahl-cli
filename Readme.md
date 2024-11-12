@@ -103,3 +103,16 @@ ethereum   | mainnet    | 1inch aggregator v2 | 0x07D91f5fb9Bf7798734C3f606dB065
 ...
 ```
 
+### List supported chains
+```
+heimdahl chain list
+
+CHAIN      NETWORK    CHAIN ID
+--------------------------------
+arbitrum   mainnet    42161   
+ethereum   mainnet    1       
+ethereum   sepolia    11155111
+ethereum   localnet   31337   
+binance    mainnet    56      
+polygon    mainnet    137     
+```
