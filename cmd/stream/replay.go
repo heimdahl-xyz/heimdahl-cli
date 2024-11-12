@@ -61,35 +61,45 @@ var ReplayCmd = &cobra.Command{
 		address, _ := cmd.Flags().GetString("address")
 		event, _ := cmd.Flags().GetString("event")
 
+		page, _ := cmd.Flags().GetInt32("page")
+		perpage, _ := cmd.Flags().GetInt32("perPage")
+
 		if address == "" {
-			log.Fatal("Address must be provided")
+			log.Fatal("address must be provided")
 		}
 
+		apiKey := config.GetApiKey()
 		// Prepare the WebSocket URL
-		httpUrl := fmt.Sprintf("%s/v1/events?address=%s&event=%s", config.GetHost(), address, event)
+		httpUrl := fmt.Sprintf("%s/v1/events?address=%s&event=%s&page=%d&per_page=%d", config.GetHost(), address, event, page, perpage)
 
 		headers := make(http.Header)
 
-		headers.Set("X-API-Key", config.GetApiKey())
+		headers.Set("X-API-Key", apiKey)
 		headers.Set("Content-Type", "application/json")
 
-		resp, err := http.DefaultClient.Get(httpUrl)
+		req, _ := http.NewRequest("GET", httpUrl, nil)
+
+		req.Header = headers
+		resp, err := http.DefaultClient.Do(req)
 		if err != nil {
 			log.Fatalf("unable to retrieve events %s", err)
 		}
 
 		b, err := io.ReadAll(resp.Body)
 
-		log.Println("Response: ", string(b))
 		var details EventDetails
 		err = json.Unmarshal(b, &details)
-
-		//err = json.NewDecoder(resp.Body).Decode(&details)
 		if err != nil {
 			log.Fatalf("unable to parse details %s", err)
 		}
 
-		theaders := []string{"BLOCK#", "BLOCK_HASH", "TIMESTAMP", "CONTRACT", "TRANSACTION_HASH", "EVENT_DATA"}
+		theaders := []string{
+			"BLOCK#",
+			"BLOCK_HASH",
+			"TIMESTAMP",
+			"CONTRACT",
+			"TRANSACTION_HASH",
+			"EVENT_DATA"}
 
 		//// Print header row
 		fmt.Printf("%-10s | %-65s | %-8s | %-15s | %-19s | %-15s\n",
@@ -112,4 +122,7 @@ func init() {
 	// Define flags
 	ReplayCmd.Flags().StringP("address", "a", "", "WebSocket server address")
 	ReplayCmd.Flags().StringP("event", "e", "", "Event to replay")
+
+	ReplayCmd.Flags().Int32P("page", "p", 0, "Page to replay")
+	ReplayCmd.Flags().Int32P("perPage", "n", 20, "Events per page")
 }

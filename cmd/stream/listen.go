@@ -97,7 +97,7 @@ var ListenCmd = &cobra.Command{
 			theaders[7])
 
 		// Print separator
-		fmt.Println(strings.Repeat("-", 100))
+		fmt.Println(strings.Repeat("-", 120))
 
 		// Listen for messages
 		for {
@@ -106,6 +106,7 @@ var ListenCmd = &cobra.Command{
 				log.Println("Error reading message:", err)
 				return
 			}
+
 			var event map[string]interface{}
 			err = json.Unmarshal(message, &event)
 			if err != nil {
