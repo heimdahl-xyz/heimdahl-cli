@@ -1,4 +1,4 @@
-# Heim-cli: Command line tool for Heimdahl API
+# Heimdahl cli: Command line tool for Heimdahl API
 
 **EVM Contract deployer, indexer and listener**
 is a command-line interface (CLI) tool.
