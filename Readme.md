@@ -57,9 +57,9 @@ Use "heimdahl [command] --help" for more information about a command.
 
 ### Stream Transfer events for USDT in Ethereum 
 ```
-➜  heimdahl-cli git:(master) ✗ bin/heimdahl stream listen   --address=0xdAC17F958D2ee523a2206206994597C13D831ec7 --event=Transfer
+➜  heimdahl-cli git:(master) ✗ bin/heimdahl stream listen --address=0xdAC17F958D2ee523a2206206994597C13D831ec7 --event=Transfer
 
-CHAIN      | NETWORK    | BLOCK#   | BLOCK_HASH      | TIMESTAMP           | CONTRACT        | TRANSACTION_HASH | EVENT_DATA                                  
+CHAIN      | NETWORK    | BLOCK#   | BLOCK_HASH      | TIMESTAMP           | CONTRACT        | TRANSACTION_HASH | EVENT_DATA                  
 ------------------------------------------------------------------------------------------------------------------------                      ethereum   | mainnet    | 21172635 | 0x1f934caba9a749257dd2d3492087ac03d8544a64c115159011353a09e9f0811e | 2024-11-12 15:56:13 | 0xdAC17F958D2ee523a22062069945
 97C13D831ec7 | to: 0x6c207dCD2c7bD0b1f6cC5Cb3319D54662a1a62a4, transactionIndex: 7, value: 2.051946238e+09, from: 0xF955C57f9EA9Dc8781965FEaE0b6A2acE2BAD6f3
 ethereum   | mainnet    | 21172635 | 0x1f934caba9a749257dd2d3492087ac03d8544a64c115159011353a09e9f0811e | 2024-11-12 15:56:13 | 0xdAC17F958D2ee523a22062069945
@@ -71,8 +71,8 @@ ethereum   | mainnet    | 21172635 | 0x1f934caba9a749257dd2d3492087ac03d8544a64c
 
 ### Replay Ethereum USDT Approvals 
 ```
-heimdahl stream replay   --address=0xdAC17F958D2ee523a2206206994597C13D831ec7 --
-event=Approval                                                                                                                                                BLOCK#     | BLOCK_HASH                                                        | TIMESTAMP | CONTRACT        | TRANSACTION_HASH    | EVENT_DATA     
+heimdahl stream replay --address=0xdAC17F958D2ee523a2206206994597C13D831ec7 --event=Approval
+BLOCK#     | BLOCK_HASH                                                        | TIMESTAMP | CONTRACT        | TRANSACTION_HASH    | EVENT_DATA     
 ----------------------------------------------------------------------------------------------------
 21114591 | 0xe9fec20213e8c5c642daf31040400a9dab90ed3f3c980acce6e5330969763fc5 | 2024-11-07T13:22:00Z | 9 | value: 11579208923731619542357098500868790785326998
 4665640564039457584007913129639935, spender: 0x881D40237659C251811CEC9c364ef91dC08D300C, owner: 0x03de42d3D23Da88ef3FE72F2569449641BBd49C0    21114591 | 0xe9fec20213e8c5c642daf31040400a9dab90ed3f3c980acce6e5330969763fc5 | 2024-11-07T13:22:00Z | 2 | owner: 0xb6F2D272584052E612Be87F5A5e45a3Cf12b9c1B, 
