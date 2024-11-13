@@ -1,4 +1,4 @@
-# Heimdahl cli: Command line tool for Heimdahl API
+# Heimdahl cli: Command line tool for EVM Chain event stream and replay
 
 **EVM events indexer and listener**
 is a command-line interface (CLI) tool.
@@ -8,6 +8,10 @@ is a command-line interface (CLI) tool.
 - **Query Indexed Blockchain Events via REST API**: Retrieve Event data already indexed on backend.
 - **Multiple Blockchain Support**: Supports Ethereum, Arbitrum, and more(in development).
 - **Built in Go**: Fast, portable, and efficient CLI.
+
+## Why?
+
+Current tools such as The Graph and Moralis 
 
 ## Installation
 
