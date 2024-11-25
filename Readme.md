@@ -1,4 +1,4 @@
-# Heimdahl cli: Command line tool for EVM Chain event stream and replay
+# Heimdahl cli: Command line tool for EVM and Solana chain event stream and replay
 
 **EVM events indexer and listener**
 is a command-line interface (CLI) tool.
