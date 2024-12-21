@@ -9,9 +9,6 @@ is a command-line interface (CLI) tool.
 - **Multiple Blockchain Support**: Supports Ethereum, Arbitrum, and more(in development).
 - **Built in Go**: Fast, portable, and efficient CLI.
 
-## Why?
-
-Current tools such as The Graph and Moralis 
 
 ## Installation
 
