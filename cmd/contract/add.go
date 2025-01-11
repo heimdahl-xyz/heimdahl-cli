@@ -34,7 +34,7 @@ var (
 
 var AddCmd = &cobra.Command{
 	Use:   "add",
-	Short: "Add a new event listener contract",
+	Short: "Add a new contract",
 	Run: func(cmd *cobra.Command, args []string) {
 		params := EventListenerParams{
 			Chain:           chain,
@@ -80,7 +80,7 @@ var AddCmd = &cobra.Command{
 			return
 		}
 
-		req.Header.Set("X-API-Key", config.GetApiKey())
+		req.Header.Set("Authorization", "Bearer "+config.GetApiKey())
 		req.Header.Set("Content-Type", "application/json")
 
 		resp, err := http.DefaultClient.Do(req)

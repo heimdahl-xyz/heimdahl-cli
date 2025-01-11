@@ -12,7 +12,7 @@ import (
 
 var ListCmd = &cobra.Command{
 	Use:   "list",
-	Short: "List all event listener streams",
+	Short: "List all contracts",
 	Run: func(cmd *cobra.Command, args []string) {
 		url := fmt.Sprintf("%s/v1/contracts", config.GetHost()) // Use the global host variable
 
@@ -22,7 +22,7 @@ var ListCmd = &cobra.Command{
 			return
 		}
 
-		req.Header.Set("X-API-Key", config.GetApiKey())
+		req.Header.Set("Authorization", "Bearer "+config.GetApiKey())
 		req.Header.Set("Content-Type", "application/json")
 
 		resp, err := http.DefaultClient.Do(req)

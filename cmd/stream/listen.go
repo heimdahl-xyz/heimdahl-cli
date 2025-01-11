@@ -58,7 +58,7 @@ func isMetaField(field string) bool {
 // ListenCmd represents the listen command
 var ListenCmd = &cobra.Command{
 	Use:   "listen",
-	Short: "Listen to events contract",
+	Short: "Listen to contract events",
 	Run: func(cmd *cobra.Command, args []string) {
 		address, _ := cmd.Flags().GetString("address")
 		event, _ := cmd.Flags().GetString("event")

@@ -56,7 +56,7 @@ func isReplayMetaField(field string) bool {
 // ListenCmd represents the listen command
 var ReplayCmd = &cobra.Command{
 	Use:   "replay",
-	Short: "Replay events for single or multiple contracts",
+	Short: "Events events for single or multiple contracts",
 	Run: func(cmd *cobra.Command, args []string) {
 		address, _ := cmd.Flags().GetString("address")
 		event, _ := cmd.Flags().GetString("event")
@@ -68,13 +68,12 @@ var ReplayCmd = &cobra.Command{
 			log.Fatal("address must be provided")
 		}
 
-		apiKey := config.GetApiKey()
 		// Prepare the WebSocket URL
 		httpUrl := fmt.Sprintf("%s/v1/events?address=%s&event=%s&page=%d&per_page=%d", config.GetHost(), address, event, page, perpage)
 
 		headers := make(http.Header)
 
-		headers.Set("X-API-Key", apiKey)
+		headers.Set("Authorization", "Bearer "+config.GetApiKey())
 		headers.Set("Content-Type", "application/json")
 
 		req, _ := http.NewRequest("GET", httpUrl, nil)

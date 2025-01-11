@@ -12,4 +12,5 @@ var StreamCmd = &cobra.Command{
 func init() {
 	StreamCmd.AddCommand(ListenCmd)
 	StreamCmd.AddCommand(ReplayCmd)
+	StreamCmd.AddCommand(CrossListenCmd)
 }

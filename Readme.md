@@ -26,7 +26,7 @@ cd heimdahl-cli
 ## Build
 
 ```bash
-go build -o bin/heimdahl main.go
+go build -o bin/heimdahl main.go.go
 or
 make build 
 ```

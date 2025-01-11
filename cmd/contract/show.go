@@ -22,7 +22,7 @@ var address string
 
 var ShowCmd = &cobra.Command{
 	Use:   "show",
-	Short: "Show an event listener by address",
+	Short: "Show contract by address",
 	Run: func(cmd *cobra.Command, args []string) {
 		url := fmt.Sprintf("%s/v1/contracts/%s", config.GetHost(), address) // Use the global host variable
 		req, err := http.NewRequest(http.MethodGet, url, nil)
@@ -31,7 +31,7 @@ var ShowCmd = &cobra.Command{
 			return
 		}
 
-		req.Header.Set("X-API-Key", config.GetApiKey())
+		req.Header.Set("Authorization", "Bearer "+config.GetApiKey())
 		req.Header.Set("Content-Type", "application/json")
 
 		resp, err := http.DefaultClient.Do(req)

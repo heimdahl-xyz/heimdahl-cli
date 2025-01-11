@@ -26,7 +26,7 @@ func init() {
 	// Add a global flag for host
 	RootCmd.PersistentFlags().StringVarP(&config.Config.APIURL, "host", "H", "api.heimdahl.xyz", "Host URL for the API server")
 	RootCmd.PersistentFlags().BoolVar(&config.Config.Secure, "secure", true, "Use secure connection to server")
-	RootCmd.PersistentFlags().StringVarP(&config.Config.APIKey, "apiKey", "K", "test1", "API Key for connection to server")
+	RootCmd.PersistentFlags().StringVarP(&config.Config.APIKey, "apiKey", "K", "pk_96385c7628a2b27eb135ae9db9087a1f458620e9576dcb17", "API Key for connection to server")
 
 	RootCmd.AddCommand(contract.ContractCmd)
 	RootCmd.AddCommand(chain.ChainCmd)

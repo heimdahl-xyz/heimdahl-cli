@@ -10,7 +10,7 @@ var ContractCmd = &cobra.Command{
 }
 
 func init() {
-	//ContractCmd.AddCommand(AddCmd)
+	ContractCmd.AddCommand(AddCmd)
 	ContractCmd.AddCommand(ShowCmd)
 	ContractCmd.AddCommand(ListCmd)
 }
