@@ -94,7 +94,14 @@ var AddCmd = &cobra.Command{
 			fmt.Println("Failed to create event listener", resp.Status)
 			return
 		}
-		fmt.Printf("Successfully created event listener for contract %s", contractAddress)
+
+		if resp.StatusCode == http.StatusOK {
+			fmt.Printf("Contract already added %s", contractAddress)
+			return
+		}
+
+		fmt.Printf("Successfully added contract %s", contractAddress)
+
 	},
 }
 
