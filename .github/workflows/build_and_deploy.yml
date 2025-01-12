@@ -35,32 +35,20 @@ jobs:
           mkdir -p dist
           GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -o dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}${{ matrix.os == 'windows' && '.exe' || '' }}
 
-      - name: Compress and Upload Binary (Windows)
-        if: matrix.os == 'windows'
+      # Step 4: Compress binaries into zip or tar.gz
+      - name: Compress Binary
         run: |
-          # For Windows, create a .zip archive
-          zip -j dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.zip dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.exe
-          # Upload the .zip file
-          echo "Uploading Windows .zip file"
-          upload_file="dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.zip"
-          curl -X POST -F "file=@$upload_file" https://api.github.com/repos/${{ github.repository }}/actions/artifacts
+          if [ "${{ matrix.os }}" == "windows" ]; then
+            zip -j dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.zip dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.exe
+          else
+            tar -czvf dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.tar.gz -C dist heimdahl-${{ matrix.os }}-${{ matrix.arch }}
+          fi
+          ls -l dist/
 
-      - name: Compress and Upload Binary (Linux)
+      # Step 5: Upload compressed binaries as workflow artifacts
+      - name: Upload Linux zip artifact
         if: matrix.os == 'linux'
-        run: |
-          # For Linux, create a .tar.gz archive
-          tar -czvf dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.tar.gz -C dist heimdahl-${{ matrix.os }}-${{ matrix.arch }}
-          # Upload the .tar.gz file
-          echo "Uploading Linux .tar.gz file"
-          upload_file="dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.tar.gz"
-          curl -X POST -F "file=@$upload_file" https://api.github.com/repos/${{ github.repository }}/actions/artifacts
-
-      - name: Compress and Upload Binary (macOS)
-        if: matrix.os == 'mac'
-        run: |
-          # For macOS, create a .tar.gz archive
-          tar -czvf dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.tar.gz -C dist heimdahl-${{ matrix.os }}-${{ matrix.arch }}
-          # Upload the .tar.gz file
-          echo "Uploading macOS .tar.gz file"
-          upload_file="dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.tar.gz"
-          curl -X POST -F "file=@$upload_file" https://api.github.com/repos/${{ github.repository }}/actions/artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: heimdahl-linux-${{ matrix.arch }}.tar.gz
+          path: dist/heimdahl-linux-${{ matrix.arch }}
