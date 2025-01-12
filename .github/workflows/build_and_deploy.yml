@@ -32,4 +32,5 @@ jobs:
       # Step 3: Build the application
       - name: Do the honours
         run: |
+          export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           make release
