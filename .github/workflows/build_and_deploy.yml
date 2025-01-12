@@ -43,12 +43,12 @@ jobs:
           else
             tar -czvf dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.tar.gz -C dist heimdahl-${{ matrix.os }}-${{ matrix.arch }}
           fi
-          ls -l dist/
 
-      # Step 5: Upload compressed binaries as workflow artifacts
-      - name: Upload Linux zip artifact
-        if: matrix.os == 'linux'
-        uses: actions/upload-artifact@v3
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
         with:
-          name: heimdahl-linux-${{ matrix.arch }}.tar.gz
-          path: dist/heimdahl-linux-${{ matrix.arch }}
+          name: heimdahl-${{ matrix.os }}-${{ matrix.arch }}
+          path: |
+            dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.zip
+            dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.tar.gz
+          retention-days: 5
