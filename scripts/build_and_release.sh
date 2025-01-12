@@ -73,6 +73,8 @@ if [ "$RELEASE_ID" == "null" ]; then
     https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/releases \
     -d "{\"tag_name\": \"$RELEASE\", \"name\": \"$RELEASE\", \"body\": \"Release created via script.\"}")
 
+  echo $RELEASE_RESPONSE
+
   RELEASE_ID=$(echo "$RELEASE_RESPONSE" | jq -r .id)
 fi
 
