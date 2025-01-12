@@ -3,10 +3,10 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - main  # Trigger workflow on pushes to the 'main' branch
+      - master  # Trigger workflow on pushes to the 'main' branch
   pull_request:
     branches:
-      - main  # Optional: Run on pull requests to 'main'
+      - master  # Optional: Run on pull requests to 'main'
 
 jobs:
   build:
