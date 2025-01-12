@@ -46,8 +46,16 @@ jobs:
           ls -l dist/
 
       # Step 5: Upload compressed binaries as workflow artifacts
-      - name: Upload Compressed Binaries
+      - name: Upload Windows zip artifact
+        if: matrix.os == 'windows'
         uses: actions/upload-artifact@v3
         with:
-          name: heimdahl-${{ matrix.os }}-${{ matrix.arch }}
-          path: dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}*.{zip,tar.gz}
+          name: windows-binaries
+          path: dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.zip
+
+      - name: Upload Linux/Mac tar.gz artifact
+        if: matrix.os != 'windows'
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-mac-binaries
+          path: dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.tar.gz
