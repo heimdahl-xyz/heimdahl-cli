@@ -50,5 +50,5 @@ jobs:
         if: matrix.os == 'linux'
         uses: actions/upload-artifact@v3
         with:
-          name: heimdahl-linux-${{ matrix.arch }}.tar.gz
-          path: dist/heimdahl-linux-${{ matrix.arch }}.tar.gz
+          name: heimdahl-linux-${{ matrix.arch }}
+          path: dist/heimdahl-linux-${{ matrix.arch }}
