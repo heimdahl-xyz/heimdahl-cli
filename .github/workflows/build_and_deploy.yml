@@ -13,11 +13,6 @@ jobs:
     name: Build, Compress, and Deploy
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        os: [ linux, windows, darwin ]
-        arch: [ amd64, arm64 ]  # Build for both x86_64 and ARM64 architectures
-
     steps:
       # Step 1: Checkout the code
       - name: Checkout Code
