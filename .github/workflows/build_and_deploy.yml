@@ -12,7 +12,11 @@ jobs:
   build:
     name: Build, Compress, and Deploy
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+      
     steps:
       # Step 1: Checkout the code
       - name: Checkout Code
