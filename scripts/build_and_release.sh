@@ -3,7 +3,6 @@
 # Exit on error
 set -e
 
-
 GIT_SHORT_REV=$(git rev-parse --short HEAD)
 
 # Variables (Update as needed)
