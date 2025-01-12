@@ -43,6 +43,7 @@ jobs:
           else
             tar -czvf dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.tar.gz -C dist heimdahl-${{ matrix.os }}-${{ matrix.arch }}
           fi
+          ls -l dist/
 
       # Step 5: Upload compressed binaries as workflow artifacts
       - name: Upload Compressed Binaries
