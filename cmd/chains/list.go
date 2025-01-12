@@ -23,7 +23,6 @@ var ListCmd = &cobra.Command{
 		}
 
 		req.Header.Set("Authorization", "Bearer "+config.GetApiKey())
-
 		req.Header.Set("Content-Type", "application/json")
 
 		resp, err := http.DefaultClient.Do(req)

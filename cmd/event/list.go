@@ -75,6 +75,11 @@ var ListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List events for single contract",
 	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) < 3 {
+			cmd.Help()
+			return
+		}
+
 		chain := args[0]
 		address := args[1]
 		event := args[2]
@@ -134,10 +139,6 @@ var ListCmd = &cobra.Command{
 }
 
 func init() {
-	// Define flags
-	ListCmd.Flags().StringP("address", "a", "", "WebSocket server address")
-	ListCmd.Flags().StringP("event", "e", "", "Event to replay")
-
 	ListCmd.Flags().Int32P("page", "p", 0, "Page to replay")
 	ListCmd.Flags().Int32P("perPage", "n", 20, "Events per page")
 }
