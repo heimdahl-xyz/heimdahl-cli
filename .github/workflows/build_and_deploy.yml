@@ -30,25 +30,6 @@ jobs:
           go-version: '1.21'  # Specify your desired Go version
 
       # Step 3: Build the application
-      - name: Build Binary
+      - name: Do the honours
         run: |
-          mkdir -p dist
-          GOOS=${{ matrix.os }} GOARCH=${{ matrix.arch }} go build -o dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}${{ matrix.os == 'windows' && '.exe' || '' }}
-
-      # Step 4: Compress binaries into zip or tar.gz
-      - name: Compress Binary
-        run: |
-          if [ "${{ matrix.os }}" == "windows" ]; then
-            zip -j dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.zip dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.exe
-          else
-            tar -czvf dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.tar.gz -C dist heimdahl-${{ matrix.os }}-${{ matrix.arch }}
-          fi
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: heimdahl-${{ matrix.os }}-${{ matrix.arch }}
-          path: |
-            dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.zip
-            dist/heimdahl-${{ matrix.os }}-${{ matrix.arch }}.tar.gz
-          retention-days: 5
+          make release
