@@ -1,32 +1,29 @@
-package stream
+package event
 
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/websocket"
 	"github.com/heimdahl-xyz/heimdahl-cli/config"
+	"github.com/spf13/cobra"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/gorilla/websocket"
-	"github.com/spf13/cobra"
 )
 
 // Assuming we have event as map[string]interface{}
 func renderEventTable(event map[string]interface{}) {
+	//log.Printf("%+v", event)
 
-	// Format known fields
-	chain := fmt.Sprintf("%-10s", event["chain"])
-	network := fmt.Sprintf("%-10s", event["network"])
+	//// Format known fields
 	blkn := event["blockNumber"].(float64)
 	blockNum := strconv.FormatInt(int64(blkn), 10)
 	blockHash := fmt.Sprintf("%-15s", event["blockHash"].(string))
 	timestamp := time.Unix(int64(event["blockTimestamp"].(float64)), 0).Format("2006-01-02 15:04:05")
-	contract := fmt.Sprintf("%-15s", event["contractAddress"].(string))
+	//contract := fmt.Sprintf("%-15s", event["contractAddress"].(string))
 
-	// Collect remaining fields for event data
 	var eventData []string
 	for k, v := range event {
 		// Skip already used fields
@@ -36,21 +33,21 @@ func renderEventTable(event map[string]interface{}) {
 		eventData = append(eventData, fmt.Sprintf("%s: %v", k, v))
 	}
 
-	// Print data row
-	fmt.Printf("%s | %s | %s | %s | %s | %s | %s\n",
-		chain, network, blockNum, blockHash, timestamp, contract, strings.Join(eventData, ", "))
+	fmt.Printf("| %s | %s | %s | %s\n",
+		blockNum, blockHash, timestamp, strings.Join(eventData, ", "))
 }
 
 func isMetaField(field string) bool {
 	metaFields := map[string]bool{
-		"chain":           true,
-		"network":         true,
-		"blockNumber":     true,
-		"blockHash":       true,
-		"blockTimestamp":  true,
-		"contractAddress": true,
-		"timestamp":       true,
-		"transactionHash": true,
+		"chain":            true,
+		"network":          true,
+		"blockNumber":      true,
+		"blockHash":        true,
+		"blockTimestamp":   true,
+		"contractAddress":  true,
+		"timestamp":        true,
+		"transactionHash":  true,
+		"transactionIndex": true,
 	}
 	return metaFields[field]
 }
@@ -60,20 +57,21 @@ var ListenCmd = &cobra.Command{
 	Use:   "listen",
 	Short: "Listen to contract events",
 	Run: func(cmd *cobra.Command, args []string) {
-		address, _ := cmd.Flags().GetString("address")
-		event, _ := cmd.Flags().GetString("event")
+		chain := args[0]
+		address := args[1]
+		event := args[2]
 
 		if address == "" {
 			log.Fatal("address must be provided")
 		}
 
 		// Prepare the WebSocket URL
-		wsURL := fmt.Sprintf("%s/v1/listen?address=%s&event=%s", config.GetWsHost(), address, event)
+		wsURL := fmt.Sprintf("%s/v1/%s/listen/%s/%s", config.GetWsHost(), chain, address, event)
 
 		//log.Println(wsURL)
 		headers := make(http.Header)
 
-		headers.Set("X-API-Key", config.GetApiKey())
+		headers.Set("Authorization", "Bearer "+config.GetApiKey())
 		headers.Set("Content-Type", "application/json")
 
 		conn, _, err := websocket.DefaultDialer.Dial(wsURL, headers)
@@ -83,18 +81,16 @@ var ListenCmd = &cobra.Command{
 		defer conn.Close()
 
 		// Define headers
-		theaders := []string{"CHAIN", "NETWORK", "BLOCK#", "BLOCK_HASH", "TIMESTAMP", "CONTRACT", "TRANSACTION_HASH", "EVENT_DATA"}
+		theaders := []string{"BLOCK#", "BLOCK_HASH", "TIMESTAMP", "CONTRACT", "TRANSACTION_HASH", "EVENT_DATA"}
 
 		// Print header row
-		fmt.Printf("%-10s | %-10s | %-8s | %-15s | %-19s | %-15s | %-15s | %s\n",
+		fmt.Printf("%-8s | %-15s | %-19s | %-15s | %-15s | %s\n",
 			theaders[0],
 			theaders[1],
 			theaders[2],
 			theaders[3],
 			theaders[4],
-			theaders[5],
-			theaders[6],
-			theaders[7])
+			theaders[5])
 
 		// Print separator
 		fmt.Println(strings.Repeat("-", 120))
@@ -113,7 +109,7 @@ var ListenCmd = &cobra.Command{
 				log.Println("Error unmarshalling message:", err)
 				return
 			}
-
+			//log.Printf("%+v", event)
 			renderEventTable(event)
 		}
 	},

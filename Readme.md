@@ -45,7 +45,7 @@ Available Commands:
   completion  Generate the autocompletion script for the specified shell
   contract    Contract subcommands
   help        Help about any command
-  stream      Stream subcommands
+  event      Stream subcommands
 
 Flags:
   -K, --apiKey string   API Key for connection to server (default "test1")
