@@ -6,13 +6,12 @@ import (
 	"fmt"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/heimdahl-xyz/heimdahl-cli/config"
+	"github.com/spf13/cobra"
 	"net/http"
 	"os"
-
-	"github.com/spf13/cobra"
 )
 
-type EventListenerParams struct {
+type ContractParams struct {
 	ProjectName     string  `json:"project_name"`
 	Chain           string  `json:"chain"`
 	Network         string  `json:"network"`
@@ -23,20 +22,27 @@ type EventListenerParams struct {
 }
 
 var (
-	chain           string
-	network         string
-	contractAddress string
-	contractName    string
-	eventNames      string
-	rawABI          string
-	rawABIFile      string
+	chain      string
+	network    string
+	eventNames string
+	rawABI     string
+	rawABIFile string
 )
 
 var AddCmd = &cobra.Command{
-	Use:   "add",
+	Use:   "add [address] [name]",
 	Short: "Add a new contract",
+	Long: `Add a new contract to the system.
+
+Arguments:
+  address - The contract address (required)
+  name   - A user-defined name for the contract (required)`,
+	Args: cobra.ExactArgs(2), // Expect exactly 2 arguments
 	Run: func(cmd *cobra.Command, args []string) {
-		params := EventListenerParams{
+		contractAddress := args[0]
+		contractName := args[1]
+
+		params := ContractParams{
 			Chain:           chain,
 			Network:         network,
 			ContractAddress: contractAddress,
@@ -101,21 +107,12 @@ var AddCmd = &cobra.Command{
 		}
 
 		fmt.Printf("Successfully added contract %s", contractAddress)
-
 	},
 }
 
 func init() {
-	AddCmd.Flags().StringVarP(&chain, "chain", "c", "", "Blockchain network (eg. ethereum, required)")
+	AddCmd.Flags().StringVarP(&chain, "chain", "c", "ethereum", "Blockchain network (eg. ethereum, required)")
 	AddCmd.Flags().StringVarP(&network, "network", "n", "mainnet", "Blockchain network (eg. mainnet, required)")
-	AddCmd.Flags().StringVarP(&contractAddress, "address", "a", "", "Contract address (eg, 0xdAC17F958D2ee523a2206206994597C13D831ec7 required)")
-	AddCmd.Flags().StringVarP(&contractName, "name", "N", "", "Contract name (eg \"USDC Token\", required)")
-	AddCmd.Flags().StringVarP(&eventNames, "events", "e", "", "Comma-separated event names (optional)")
 	AddCmd.Flags().StringVarP(&rawABI, "abi", "r", "", "Raw ABI (optional)")
 	AddCmd.Flags().StringVarP(&rawABIFile, "abi_file", "f", "", "Raw ABI file path (optional)")
-
-	AddCmd.MarkFlagRequired("chain")
-	AddCmd.MarkFlagRequired("network")
-	AddCmd.MarkFlagRequired("address")
-	AddCmd.MarkFlagRequired("name")
 }

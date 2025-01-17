@@ -12,6 +12,11 @@ import (
 	"strings"
 )
 
+var (
+	chain   string
+	network string
+)
+
 type EventMeta struct {
 	Chain   string `json:"chain"`
 	ChainID int    `json:"chain_id"`
@@ -72,30 +77,34 @@ func isReplayMetaField(field string) bool {
 
 // ListenCmd represents the listen command
 var ListCmd = &cobra.Command{
-	Use:   "list",
-	Short: "List events for single contract",
+	Use:   "list [address] [event]",
+	Short: "List events for contract",
+	Long: `List collected events for contract 
+
+Arguments:
+  address - The contract address (required) (eg. 0xdAC17F958D2ee523a2206206994597C13D831ec7)
+  event-name   - Name of the event (eg. Transfer),`,
+	Args: cobra.ExactArgs(2), // Expect exactly 2 arguments
+
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) < 3 {
+		if len(args) < 2 {
 			cmd.Help()
 			return
 		}
 
-		chain := args[0]
-		address := args[1]
-		event := args[2]
+		address := args[0]
+		event := args[1]
 
-		page, _ := cmd.Flags().GetInt32("page")
-		perpage, _ := cmd.Flags().GetInt32("perPage")
+		page, _ := cmd.Flags().GetInt("page")
+		perpage, _ := cmd.Flags().GetInt("perPage")
 
 		// Prepare the WebSocket URL
 		httpUrl := fmt.Sprintf("%s/v1/%s/events/%s/%s?page=%d&per_page=%d", config.GetHost(), chain, address, event, page, perpage)
-
+		log.Printf("requesting %s", httpUrl)
 		headers := make(http.Header)
 
 		headers.Set("Authorization", "Bearer "+config.GetApiKey())
 		headers.Set("Content-Type", "application/json")
-
-		//log.Println("Requesting events from", httpUrl)
 
 		req, _ := http.NewRequest(http.MethodGet, httpUrl, nil)
 
@@ -139,6 +148,8 @@ var ListCmd = &cobra.Command{
 }
 
 func init() {
-	ListCmd.Flags().Int32P("page", "p", 0, "Page to replay")
-	ListCmd.Flags().Int32P("perPage", "n", 20, "Events per page")
+	ListCmd.Flags().StringVarP(&chain, "chain", "c", "ethereum", "Blockchain type  (eg. ethereum, required)")
+	ListCmd.Flags().StringVarP(&network, "network", "w", "mainnet", "Blockchain network (eg. mainnet, required)")
+	ListCmd.Flags().IntP("page", "p", 0, "Page to replay")
+	ListCmd.Flags().IntP("perPage", "l", 20, "Events per page")
 }
