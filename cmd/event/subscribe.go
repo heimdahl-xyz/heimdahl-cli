@@ -52,18 +52,24 @@ func isMetaField(field string) bool {
 	return metaFields[field]
 }
 
-// ListenCmd represents the listen command
-var ListenCmd = &cobra.Command{
-	Use:   "listen",
-	Short: "Listen to contract events",
-	Run: func(cmd *cobra.Command, args []string) {
-		chain := args[0]
-		address := args[1]
-		event := args[2]
+// SubscribeCmd represents the listen command
+var SubscribeCmd = &cobra.Command{
+	Use:   "subscribe [address] [event]",
+	Short: "subscribe to realtime events for contract",
+	Long: `Subscribe to realtime events for contract 
+	Arguments:
+	  address - The contract address (required) (eg. 0xdAC17F958D2ee523a2206206994597C13D831ec7)
+	  event-name   - Name of the event (eg. Transfer),`,
+	Args: cobra.ExactArgs(2), // Expect exactly 2 arguments
 
-		if address == "" {
-			log.Fatal("address must be provided")
+	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) < 2 {
+			cmd.Help()
+			return
 		}
+
+		address := args[0]
+		event := args[1]
 
 		// Prepare the WebSocket URL
 		wsURL := fmt.Sprintf("%s/v1/%s/listen/%s/%s", config.GetWsHost(), chain, address, event)
@@ -71,7 +77,6 @@ var ListenCmd = &cobra.Command{
 		//log.Println(wsURL)
 		headers := make(http.Header)
 
-		headers.Set("Authorization", "Bearer "+config.GetApiKey())
 		headers.Set("Content-Type", "application/json")
 
 		conn, _, err := websocket.DefaultDialer.Dial(wsURL, headers)
@@ -116,8 +121,6 @@ var ListenCmd = &cobra.Command{
 }
 
 func init() {
-
-	// Define flags
-	ListenCmd.Flags().StringP("address", "a", "", "Contract address to listen to")
-	ListenCmd.Flags().StringP("event", "e", "", "Comma-separated list of events to subscribe to")
+	SubscribeCmd.Flags().StringVarP(&chain, "chain", "c", "ethereum", "Blockchain type  (eg. ethereum, required)")
+	SubscribeCmd.Flags().StringVarP(&network, "network", "w", "mainnet", "Blockchain network (eg. mainnet, required)")
 }

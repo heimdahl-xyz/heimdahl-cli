@@ -10,7 +10,7 @@ var EventCmd = &cobra.Command{
 }
 
 func init() {
-	EventCmd.AddCommand(ListenCmd)
+	EventCmd.AddCommand(SubscribeCmd)
 	EventCmd.AddCommand(ListCmd)
 	//EventCmd.AddCommand(CrossListenCmd)
 }

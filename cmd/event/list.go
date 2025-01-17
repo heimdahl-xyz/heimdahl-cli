@@ -75,7 +75,7 @@ func isReplayMetaField(field string) bool {
 	return metaFields[field]
 }
 
-// ListenCmd represents the listen command
+// SubscribeCmd represents the listen command
 var ListCmd = &cobra.Command{
 	Use:   "list [address] [event]",
 	Short: "List events for contract",
