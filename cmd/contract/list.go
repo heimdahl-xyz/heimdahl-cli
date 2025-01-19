@@ -6,6 +6,7 @@ import (
 	"github.com/heimdahl-xyz/heimdahl-cli/config"
 	"io"
 	"net/http"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -49,20 +50,18 @@ var ListCmd = &cobra.Command{
 			fmt.Println("Error unmarshalling JSON:", err)
 			return
 		}
-		// First print header
-		fmt.Printf("\n%-10s %-15s %-42s\n",
-			"NETWORK",
-			"CONTRACT NAME",
-			"CONTRACT ADDRESS")
-		fmt.Println("-------------------------------------------------------------------------------")
 
 		// Then data rows
 		for _, contractInfo := range contractInfos {
-			fmt.Printf("%-10s | %-10s | %-15s | %-42s\n",
-				contractInfo.Chain,
-				contractInfo.Network,
-				contractInfo.ContractName,
-				contractInfo.ContractAddress)
+			fmt.Printf("Chain:            %s\n", contractInfo.Chain)
+			fmt.Printf("Network:          %s\n", contractInfo.Network)
+			fmt.Printf("Contract Name:    %s\n", contractInfo.ContractName)
+			fmt.Printf("Contract Address: %s\n", contractInfo.ContractAddress)
+			fmt.Printf("Events:\n")
+			for _, event := range strings.Split(contractInfo.Events, ",") {
+				fmt.Printf("  - %s\n", strings.TrimSpace(event))
+			}
+			fmt.Println(strings.Repeat("-", 80)) // Add a separator for better readability
 		}
 		fmt.Println()
 	},

@@ -15,15 +15,25 @@ type ContractInfo struct {
 	Network         string `json:"network"`
 	ContractName    string `json:"contract_name"`
 	ContractAddress string `json:"contract_address"`
+	Events          string `json:"events"`
 	ABI             string `json:"-"`
 }
 
 var address string
 
 var ShowCmd = &cobra.Command{
-	Use:   "show",
+	Use:   "show [address]",
 	Short: "Show contract by address",
+	Long: `Show contract metadata by address. 
+		Usage: heimdahl contract show 0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2`,
+
 	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) != 1 {
+			fmt.Println("Usage: heimdahl contract show [address]")
+			return
+		}
+		address := args[0]
+
 		url := fmt.Sprintf("%s/v1/contracts/%s", config.GetHost(), address) // Use the global host variable
 		req, err := http.NewRequest(http.MethodGet, url, nil)
 		if err != nil {
@@ -60,11 +70,14 @@ var ShowCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Printf("Network: %s\nContract Name: %s\nContract Address: %s\n", contractInfo.Network, contractInfo.ContractName, contractInfo.ContractAddress)
+		fmt.Printf("Network: %s\nContract Name: %s\nContract Address: %s\nEvents: %s",
+			contractInfo.Network,
+			contractInfo.ContractName,
+			contractInfo.ContractAddress,
+			contractInfo.Events)
 	},
 }
 
 func init() {
-	ShowCmd.Flags().StringVarP(&address, "address", "a", "", "Contract address (required)")
-	_ = ShowCmd.MarkFlagRequired("address")
+
 }
