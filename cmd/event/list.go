@@ -100,7 +100,7 @@ Arguments:
 
 		// Prepare the WebSocket URL
 		httpUrl := fmt.Sprintf("%s/v1/%s/events/%s/%s?page=%d&per_page=%d", config.GetHost(), chain, address, event, page, perpage)
-		log.Printf("requesting %s", httpUrl)
+
 		headers := make(http.Header)
 
 		headers.Set("Authorization", "Bearer "+config.GetApiKey())

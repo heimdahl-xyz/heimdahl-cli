@@ -13,7 +13,19 @@ import (
 
 var RootCmd = &cobra.Command{
 	Use:   "heimdahl",
-	Short: "A CLI client for interacting with the Heimdahl event listener API",
+	Short: "heimdahl - Blockchain Data Access CLI\n",
+	Long: `
+Heimdahl CLI - Blockchain Data Access Without Infrastructure
+
+Fast access to blockchain events and analytics across multiple chains through simple commands.
+Instead of spending months building indexers, start exploring blockchain data in minutes:
+
+Examples:
+  heimdahl event list 0xb47e...BBB PunkOffered   # Get specific events
+  heimdahl contract show 0x060...6d              # View contract details
+
+Built for developers who need reliable blockchain data without infrastructure overhead.
+`,
 }
 
 func Execute() {
