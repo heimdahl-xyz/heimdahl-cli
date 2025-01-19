@@ -4,13 +4,14 @@
 is a command-line interface (CLI) tool.
 
 ## Features
+
 - **Query Indexed Blockchain Events via REST API**: Retrieve Event data already indexed on backend.
 - **Built in Go**: Fast, portable, and efficient CLI.
 
 ### Features in development
+
 - **Listen to Realtime Events**: Listen to events via Websocket API.
 - **Multiple Blockchain Support**: Supports for Arbitrum and more(in development).
-
 
 ## Installation
 
@@ -19,13 +20,13 @@ is a command-line interface (CLI) tool.
 - **Go**: Ensure Go is installed (version 1.21+).
 - **Make**: GNU Make 3.81(optional)
 
-
 ### Clone the Repository
 
 ```bash
 git clone git@github.com:heimdahl-xyz/heimdahl-cli.git
 cd heimdahl-cli
 ```
+
 ## Build
 
 ```bash
@@ -34,7 +35,14 @@ or
 make build 
 ```
 
+or you can pick pre-build binaries from the [releases](https://github.com/heimdahl-xyz/heimdahl-cli/releases) page.
+
+```bash
+
+```
+
 ## Run CLI
+
 ```bash
 ➜  heimdahl-cli git:(master) ✗ bin/heimdahl --help
 A CLI client for interacting with the Heimdahl event listener API
@@ -58,7 +66,8 @@ Flags:
 Use "heimdahl [command] --help" for more information about a command.
 ```
 
-### Replay Ethereum USDT Approvals 
+### Replay Ethereum USDT Approvals
+
 ```
 heimdahl event list ethereum 0xdAC17F958D2ee523a2206206994597C13D831ec7 Approval
 BLOCK#     | BLOCK_HASH                                                        | TIMESTAMP | CONTRACT        | TRANSACTION_HASH    | EVENT_DATA     
@@ -70,8 +79,8 @@ spender: 0x216B4B4Ba9F3e719726886d34a177484278Bfcae, value: 11579208923731619542
 D, owner: 0x1f2F10D1C40777AE1Da742455c65828FF36Df387, value: 121276199680           
 ```
 
-
 ### List event listeners
+
 ```bash
 ➜  heimdahl-cli git:(master) ✗ bin/heimdahl contract list
                
@@ -93,6 +102,7 @@ ethereum   | mainnet    | 1inch aggregator v2 | 0x07D91f5fb9Bf7798734C3f606dB065
 ```
 
 ### List supported chains
+
 ```
 heimdahl chain list
 
