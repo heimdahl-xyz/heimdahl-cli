@@ -2,6 +2,8 @@ module github.com/heimdahl-xyz/heimdahl-cli
 
 go 1.21
 
+toolchain go1.22.5
+
 require (
 	github.com/ethereum/go-ethereum v1.14.8
 	github.com/gorilla/websocket v1.5.3
