@@ -37,8 +37,21 @@ for PLATFORM in "${PLATFORMS[@]}"; do
     OUTPUT="${OUTPUT}.exe"
   fi
 
+  case "$ARCH" in
+      amd64)
+        CC=gcc
+        ;;
+      arm64)
+        CC=aarch64-linux-gnu-gcc
+        ;;
+      *)
+        echo "Unsupported architecture: $ARCH"
+        exit 1
+        ;;
+    esac
+
   echo "Building for $OS/$ARCH..."
-  CGO_ENABLED=1  GOOS=$OS GOARCH=$ARCH go build -o $OUTPUT
+  CGO_ENABLED=1  GOOS=$OS GOARCH=$ARCH CC=$CC go build -o $OUTPUT
 done
 
 # Step 2: Create tarballs and zip archives

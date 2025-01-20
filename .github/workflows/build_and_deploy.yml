@@ -28,14 +28,24 @@ jobs:
         with:
           go-version: '1.22'  # Specify your desired Go version
 
+
+
       # Step 3: Install dependencies (if needed)
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential  # or any dependencies you need
 
+      - name: Generate build files
+        uses: thatisuday/go-cross-build@v1
+        with:
+          platforms: 'linux/amd64, linux/arm64, darwin/amd64, darwin/arm64, windows/amd64, windows/arm64'
+          package: ''
+          name: 'heimdahl'
+          compress: 'true'
+          dest: 'build'
+
       # Step 3: Build the application
       - name: Do the honours
         run: |
-          export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-          make release
+          ls -l build
