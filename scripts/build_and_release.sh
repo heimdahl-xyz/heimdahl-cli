@@ -38,7 +38,7 @@ for PLATFORM in "${PLATFORMS[@]}"; do
   fi
 
   echo "Building for $OS/$ARCH..."
-  CGO_ENABLED=0  GOOS=$OS GOARCH=$ARCH go build -o $OUTPUT
+  CGO_ENABLED=1  GOOS=$OS GOARCH=$ARCH go build -o $OUTPUT
 done
 
 # Step 2: Create tarballs and zip archives
