@@ -2,8 +2,6 @@ module github.com/heimdahl-xyz/heimdahl.xyz
 
 go 1.22
 
-toolchain go1.22.5
-
 require (
 	github.com/ethereum/go-ethereum v1.14.12
 	github.com/gorilla/websocket v1.5.3
