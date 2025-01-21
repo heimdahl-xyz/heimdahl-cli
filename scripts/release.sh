@@ -5,7 +5,7 @@ set -e
 
 GITHUB_TOKEN=${GITHUB_TOKEN}     # Replace with your GitHub token or set as an environment variable
 
-GIT_SHORT_REV=$(git rev-parse --short HEAD)
+GIT_SHORT_REV=${GIT_REV}
 
 # Variables (Update as needed)
 REPO_OWNER="heimdahl-xyz"           # Replace with your GitHub username or organization

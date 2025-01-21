@@ -18,7 +18,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ linux, darwin, windows ]
+        os: [ lin ux, darwin, windows ]
         arch: [ amd64, arm64 ]
 
     env:
@@ -49,6 +49,10 @@ jobs:
         with:
           go-version: ${{ env.GO_VERSION }}
 
+      - name: Set Short SHA in Environment
+        run: |
+          echo "GIT_REV=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
+
       # Step 3: Build the application
       - name: Build
         env:
@@ -67,5 +71,6 @@ jobs:
           GOARM: ${{ matrix.goarm }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GIT_DISCOVERY_ACROSS_FILESYSTEM: 1
+          GIT_REV: ${{ env.GIT_REV }}
         run: |
           make release
