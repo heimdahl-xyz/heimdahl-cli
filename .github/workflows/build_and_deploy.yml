@@ -67,5 +67,6 @@ jobs:
           GOARCH: ${{ matrix.arch }}
           GOARM: ${{ matrix.goarm }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_DISCOVERY_ACROSS_FILESYSTEM: 1
         run: |
           make release
