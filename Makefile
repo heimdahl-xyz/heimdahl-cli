@@ -20,7 +20,6 @@ release:
 	fi
 	./scripts/release.sh
 
-
 binary: clean
 	CGO_ENABLED=0 GOGC=off GOOS=${GOOS} GOARCH=${GOARCH} \
 	go build -installsuffix nocgo -o "./build/${OUTPUT_NAME}" main.go
