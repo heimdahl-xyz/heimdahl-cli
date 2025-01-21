@@ -92,6 +92,7 @@ fi
 
 if [ "$RELEASE_ID" == "null" ]; then
   echo "Failed to create or retrieve release. Exiting."
+  echo "response $RELEASE_RESPONSE"
   exit 1
 fi
 
