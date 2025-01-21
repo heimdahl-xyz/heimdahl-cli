@@ -22,6 +22,9 @@ jobs:
       GO_VERSION: '1.23'
       CGO_ENABLED: 0
     steps:
+      - name: Install sudo package
+        run: apt update && apt install sudo
+
       # Step 1: Checkout the code
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -29,8 +32,7 @@ jobs:
 
       - name: Install make
         run: |
-          apt update
-          apt install -y sudo
+          sudo apt update
           sudo apt-get install -y make ca-certificates jq zip git curl file
 
       # Step 2: Set up Go environment
