@@ -18,7 +18,8 @@ release:
 			echo "Error: GITHUB_TOKEN environment variable is not set"; \
 			exit 1; \
 	fi
-	./scripts/release.sh
+	ls -l scripts/
+	scripts/release.sh
 
 binary: clean
 	CGO_ENABLED=0 GOGC=off GOOS=${GOOS} GOARCH=${GOARCH} \

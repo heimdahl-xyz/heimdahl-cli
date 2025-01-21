@@ -56,8 +56,7 @@ jobs:
           GOARCH: ${{ matrix.arch }}
           GOARM: ${{ matrix.goarm }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: | 
-          ls -la
+        run: |
           make binary
 
       # Step 4: Release the package
