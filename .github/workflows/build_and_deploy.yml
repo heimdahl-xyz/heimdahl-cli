@@ -12,9 +12,10 @@ jobs:
   build:
     name: Build, Compress, and Deploy
     runs-on: ubuntu-latest
-    #    container:
-    #      image: ubuntu:latest
-    #      options: --user root
+    container:
+      image: ubuntu:latest
+      options: --user root
+
     strategy:
       matrix:
         os: [ linux, darwin, windows ]
