@@ -15,6 +15,9 @@ jobs:
     container:
       image: ubuntu:latest
       options: --user root
+    permissions:
+      contents: write
+      pull-requests: write
 
     strategy:
       matrix:
