@@ -38,6 +38,7 @@ make build
 or you can pick pre-build binaries from the [releases](https://github.com/heimdahl-xyz/heimdahl-cli/releases) page.
 
 ```bash
+wget https://github.com/heimdahl-xyz/heimdahl-cli/releases/download/heimdahl-cli-dc9e278/heimdahl-cli-linux-amd64.tar.gz
 
 ```
 

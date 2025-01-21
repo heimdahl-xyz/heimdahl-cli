@@ -12,40 +12,48 @@ jobs:
   build:
     name: Build, Compress, and Deploy
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-      repository-projects: write
 
+    strategy:
+      matrix:
+        os: [ linux, darwin, windows ]
+        arch: [ amd64, arm64 ]
+
+    env:
+      GO_VERSION: '1.23'
+      CGO_ENABLED: 0
     steps:
       # Step 1: Checkout the code
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Step 2: Set up Go environment
-      - name: Setup Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: '1.22'  # Specify your desired Go version
-
-
-
-      # Step 3: Install dependencies (if needed)
-      - name: Install dependencies
+      - name: Install make
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential  # or any dependencies you need
+          apt-get update
+          apt-get install -y make ca-certificates jq zip git curl file
 
-      - name: Generate build files
-        uses: thatisuday/go-cross-build@v1
+      # Step 2: Set up Go environment
+      - name: Set up Go ${{ env.GO_VERSION }}
+        uses: actions/setup-go@v5
+        env:
+          ImageOS: ${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.goarm }}
         with:
-          platforms: 'linux/amd64, linux/arm64, darwin/amd64, darwin/arm64, windows/amd64, windows/arm64'
-          package: ''
-          name: 'heimdahl'
-          compress: 'true'
-          dest: 'build'
+          go-version: ${{ env.GO_VERSION }}
 
       # Step 3: Build the application
-      - name: Do the honours
+      - name: Build
+        env:
+          GOOS: ${{ matrix.os }}
+          GOARCH: ${{ matrix.arch }}
+          GOARM: ${{ matrix.goarm }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: make binary
+
+      # Step 4: Release the package
+      - name: Release
+        env:
+          GOOS: ${{ matrix.os }}
+          GOARCH: ${{ matrix.arch }}
+          GOARM: ${{ matrix.goarm }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ls -l build
+          make release
