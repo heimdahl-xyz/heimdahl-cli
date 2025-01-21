@@ -12,7 +12,9 @@ jobs:
   build:
     name: Build, Compress, and Deploy
     runs-on: ubuntu-latest
-
+    #    container:
+    #      image: ubuntu:latest
+    #      options: --user root
     strategy:
       matrix:
         os: [ linux, darwin, windows ]
@@ -23,7 +25,10 @@ jobs:
       CGO_ENABLED: 0
     steps:
       - name: Install sudo package
-        run: apt update && apt install sudo
+        run: |
+          echo "------------------------"
+          whoami
+          echo "------------------------"
 
       # Step 1: Checkout the code
       - name: Checkout Code
@@ -32,8 +37,8 @@ jobs:
 
       - name: Install make
         run: |
-          sudo apt update
-          sudo apt-get install -y make ca-certificates jq zip git curl file
+          apt update
+          apt-get install -y make ca-certificates jq zip git curl file
 
       # Step 2: Set up Go environment
       - name: Set up Go ${{ env.GO_VERSION }}
