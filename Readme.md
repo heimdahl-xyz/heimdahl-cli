@@ -1,4 +1,4 @@
-# Heimdahl cli: Command line tool for Heimdahl blockchain data aggregator
+# Heimdahl cli: Blockchain data aggregator command line 
 
 ![Heimdahl-logo](https://github.com/heimdahl-xyz/heimdahl-cli/blob/572e8557e1dc6181443db5a21123a295b365fb51/static/heimdahl-logo.png?raw=true)
 
