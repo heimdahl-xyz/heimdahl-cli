@@ -107,9 +107,10 @@ echo "Uploading assets to GitHub release..."
 for FILE in $BUILD_DIR/*.{tar.gz,zip}; do
   BASENAME=$(basename $FILE)
   echo "Uploading $BASENAME to $UPLOAD_URL..."
-  if [ -e "$FILE" ]; then
+  if [ ! -e "$FILE" ]; then
       # Your processing logic here
       echo "Processing: $FILE"
+      continue
   fi
   curl -s \
     -X POST \
