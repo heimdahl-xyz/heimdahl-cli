@@ -1,5 +1,8 @@
 # Heimdahl cli: Command line tool for Heimdahl blockchain data aggregator
 
+![Heimdahl-logo]([https://example.com/sunset.jpg](https://github.com/heimdahl-xyz/heimdahl-cli/blob/master/static/heimdahl-logo.png))
+
+
 **Heimdahl CLI**
 is a general purpose command line tool that aims to provide convenient way to access blockchain data.
 
