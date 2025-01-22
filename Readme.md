@@ -1,6 +1,5 @@
 # Heimdahl cli: Blockchain data aggregator command line 
 
-<img src="[https://example.com/logo.png](https://github.com/heimdahl-xyz/heimdahl-cli/blob/572e8557e1dc6181443db5a21123a295b365fb51/static/heimdahl-logo.png?raw=true)" alt="Heimdahl" width="150" height="100"/>
 
 
 **Heimdahl CLI**
