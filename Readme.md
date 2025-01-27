@@ -3,18 +3,18 @@
 ![Heimdahl-logo](https://github.com/heimdahl-xyz/heimdahl-cli/blob/572e8557e1dc6181443db5a21123a295b365fb51/static/heimdahl-logo.png?raw=true)
 
 **Heimdahl CLI**
-is a general purpose command line tool that aims to provide convenient way to access blockchain data.
+is a general-purpose command line tool that aims to provide a convenient way to access blockchain data.
 
 ## Features
 
-- **Query Indexed Blockchain Events via REST API**: Retrieve smart contracts events data already pre-indexed on backend.
-- **Direct sourcing from in-house Ethereum nodes**: Get data directly from blockchain without any middlemen (Alchemy,
-  Infura etc) with more nodes to come.
-- **Unpacked data** : Get decoded data from events with parsing via ABI.
+- **Query Indexed Blockchain Events via REST API**: Retrieve smart contracts events data already pre-indexed on the backend.
+- **Direct sourcing from in-house Ethereum nodes**: Get data directly from the blockchain without any middlemen (Alchemy,
+  Infura, etc.) with more nodes to come.
+- **Unpacked data**: Get decoded data from events with parsing via ABI.
 - **Unified API**: Access multiple chains events data with a single API.
 - **Zero Configuration**: No need to run your own infrastructure or indexers.
-- **REST API**: Access blockchain data via REST API to eliminate need for complex GraphQL querying
-- **Built in Go**: Fast, portable, and efficient CLI with zero configuration and underlying dependency.
+- **REST API**: Access blockchain data via REST API to eliminate the need for complex GraphQL querying
+- **Built-in Go**: Fast, portable, and efficient CLI with zero configuration and underlying dependency.
 - **Simple Commands**: Get started with simple commands powered by [Cobra](https://github.com/spf13/cobra).
 
 ### Features in development
@@ -23,7 +23,7 @@ is a general purpose command line tool that aims to provide convenient way to ac
 - **Listen to Realtime Events**: Listen to events via Websocket API.
 - **Multiple Blockchain Support**: Supports for Arbitrum and more(in development).
 - **Advanced filtering** Filter events by block number, timestamp, and more.
-- **Block, Transactions and Receipts Indexing** Indexing of blocks, transactions and receipts for advanced analytics.
+- **Block, Transactions, and Receipts Indexing** Indexing of blocks, transactions, and receipts for advanced analytics.
 - **Realtime Websocket API**: Listen to events in real-time via Websocket API.
 
 - and many more to come ;)
@@ -58,7 +58,7 @@ or you can ...
 ### Prerequisites
 
 - **Go**: Ensure Go is installed (version 1.21+).
-- **Make**: GNU Make 3.81(optional)
+- **Make**: GNU Make 3.81 (optional)
 
 ### Clone the Repository
 
@@ -71,7 +71,9 @@ cd heimdahl-cli
 
 ```bash
 go build -o bin/heimdahl main.go
+```
 or
+```bash
 make build 
 ```
 
