@@ -14,7 +14,7 @@ is a general purpose command line tool that aims to provide convenient way to ac
 - **Unified API**: Access multiple chains events data with a single API.
 - **Zero Configuration**: No need to run your own infrastructure or indexers.
 - **REST API**: Access blockchain data via REST API to eliminate need for complex GraphQL querying
-- **Built in Go**: Fast, portable, and efficient CLI with zero configuration and underlying dependency.
+- **Built with Go**: Fast, portable, and efficient CLI with zero configuration and underlying dependency.
 - **Simple Commands**: Get started with simple commands powered by [Cobra](https://github.com/spf13/cobra).
 
 ### Features in development
