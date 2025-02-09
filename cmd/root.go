@@ -7,7 +7,7 @@ import (
 	"github.com/heimdahl-xyz/heimdahl-cli/cmd/event"
 	"github.com/heimdahl-xyz/heimdahl-cli/cmd/stats"
 	"github.com/heimdahl-xyz/heimdahl-cli/config"
-	"github.com/heimdahl-xyz/heimdahl.xyz/cmd/fungibles"
+	"github.com/heimdahl-xyz/heimdahl-cli/cmd/fungibles"
 	"github.com/spf13/cobra"
 	"os"
 )
