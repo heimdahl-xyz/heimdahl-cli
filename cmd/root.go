@@ -5,7 +5,9 @@ import (
 	chain "github.com/heimdahl-xyz/heimdahl-cli/cmd/chains"
 	"github.com/heimdahl-xyz/heimdahl-cli/cmd/contract"
 	"github.com/heimdahl-xyz/heimdahl-cli/cmd/event"
+	"github.com/heimdahl-xyz/heimdahl-cli/cmd/stats"
 	"github.com/heimdahl-xyz/heimdahl-cli/config"
+	"github.com/heimdahl-xyz/heimdahl.xyz/cmd/fungibles"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -38,12 +40,13 @@ func init() {
 	// Add a global flag for host
 	RootCmd.PersistentFlags().StringVarP(&config.Config.APIURL, "host", "H", "api.heimdahl.xyz", "Host URL for the API server")
 	RootCmd.PersistentFlags().BoolVar(&config.Config.Secure, "secure", true, "Use secure connection to server")
-	RootCmd.PersistentFlags().StringVarP(&config.Config.APIKey, "apiKey", "K", "", "API Key for connection to server")
+	RootCmd.PersistentFlags().StringVarP(&config.Config.APIKey, "apiKey", "K", "", "API NetworkKey for connection to server")
 
 	RootCmd.AddCommand(contract.ContractCmd)
 	RootCmd.AddCommand(chain.ChainCmd)
 	RootCmd.AddCommand(event.EventCmd)
+	RootCmd.AddCommand(fungibles.FungibleCmd)
 
 	// Under construction
-	//RootCmd.AddCommand(stats.StatsCmd)
+	RootCmd.AddCommand(stats.StatsCmd)
 }

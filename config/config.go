@@ -33,7 +33,7 @@ func GetApiKey() string {
 		apk = Config.APIKey
 	}
 	if apk == "" {
-		log.Fatalf("API Key not found. Please set the HEIMDAHL_API_KEY environment variable or use the --apiKey flag")
+		log.Fatalf("API NetworkKey not found. Please set the HEIMDAHL_API_KEY environment variable or use the --apiKey flag")
 	}
 
 	return apk

@@ -5,7 +5,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var dummy = `-------------------------------------------------------------
+var dummy = `
+-------------------------------------------------------------
                     Heimdahl Stats Summary
 -------------------------------------------------------------
 Chains Indexed:
@@ -55,6 +56,8 @@ Contract Event Stats:
 | 0x123abc456         | Mint         | 300,000              |
 | 0x987def123         | Burn         | 150,000              |
 ---------------------------------------------------------------
+
+Remark: The data displayed below is for demonstration purposes only and does not reflect real statistics.
 `
 var StatsCmd = &cobra.Command{
 	Use:   "stats",
