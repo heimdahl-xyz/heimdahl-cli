@@ -5,61 +5,42 @@ import (
 	"fmt"
 	"github.com/gorilla/websocket"
 	"github.com/heimdahl-xyz/heimdahl-cli/config"
+	"github.com/heimdahl-xyz/heimdahl-cli/lib"
 	"github.com/spf13/cobra"
 	"log"
 	"net/http"
-	"strconv"
-	"strings"
-	"time"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
-// Assuming we have event as map[string]interface{}
-func renderEventTable(event map[string]interface{}) {
-	//log.Printf("%+v", event)
+func renderTokenTransferAsTableRow(transfer lib.FungibleTokenTransfer) {
+	fmt.Printf("| %-15d | %-20s | %-20s | %-20s | %-20s | %-15s | %-15s | %-10s | %-10s | %-25s | %-10d | %-10d |\n",
+		transfer.Timestamp,
+		transfer.FromAddress,
+		transfer.FromOwner,
+		transfer.ToAddress,
+		transfer.ToOwner,
+		transfer.Amount.String(),
+		transfer.TokenAddress,
+		transfer.Symbol,
+		transfer.Chain,
+		transfer.Network,
+		transfer.TxHash,
+		transfer.Decimals,
+		transfer.Position)
+	log.Println("---------------------------------------------------------------------------")
 
-	//// Format known fields
-	blkn := event["blockNumber"].(float64)
-	blockNum := strconv.FormatInt(int64(blkn), 10)
-	blockHash := fmt.Sprintf("%-15s", event["blockHash"].(string))
-	timestamp := time.Unix(int64(event["blockTimestamp"].(float64)), 0).Format("2006-01-02 15:04:05")
-	//contract := fmt.Sprintf("%-15s", event["contractAddress"].(string))
-
-	var eventData []string
-	for k, v := range event {
-		// Skip already used fields
-		if isMetaField(k) {
-			continue
-		}
-		eventData = append(eventData, fmt.Sprintf("%s: %v", k, v))
-	}
-
-	fmt.Printf("| %s | %s | %s | %s\n",
-		blockNum, blockHash, timestamp, strings.Join(eventData, ", "))
-}
-
-func isMetaField(field string) bool {
-	metaFields := map[string]bool{
-		"chain":            true,
-		"network":          true,
-		"blockNumber":      true,
-		"blockHash":        true,
-		"blockTimestamp":   true,
-		"contractAddress":  true,
-		"timestamp":        true,
-		"transactionHash":  true,
-		"transactionIndex": true,
-	}
-	return metaFields[field]
 }
 
 // SubscribeCmd represents the listen command
 var SubscribeCmd = &cobra.Command{
 	Use:   "subscribe [pattern]",
-	Short: "subscribe to realtime transfers for fungibel tokens by pattern",
+	Short: "subscribe to realtime transfers for fungibe tokens by pattern",
 	Long: `Subscribe to realtime events for contract 
 	Arguments:
 	  pattern - search pattern (required) (eg. ethereum.mainnet.0x1234.0x5677.whale)`,
-	Args: cobra.ExactArgs(2), // Expect exactly 2 arguments
+	Args: cobra.ExactArgs(1),
 
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 1 {
@@ -77,26 +58,19 @@ var SubscribeCmd = &cobra.Command{
 
 		headers.Set("Content-Type", "application/json")
 
+		signalChannel := make(chan os.Signal, 1)
+		// Notify when SIGINT (Ctrl+C) or SIGTERM signal is received
+		signal.Notify(signalChannel, syscall.SIGINT, syscall.SIGTERM)
+
 		conn, _, err := websocket.DefaultDialer.Dial(wsURL, headers)
 		if err != nil {
 			log.Fatal("Error connecting to WebSocket:", err)
 		}
 		defer conn.Close()
 
-		// Define headers
-		theaders := []string{"BLOCK#", "BLOCK_HASH", "TIMESTAMP", "CONTRACT", "TRANSACTION_HASH", "EVENT_DATA"}
-
-		// Print header row
-		fmt.Printf("%-8s | %-15s | %-19s | %-15s | %-15s | %s\n",
-			theaders[0],
-			theaders[1],
-			theaders[2],
-			theaders[3],
-			theaders[4],
-			theaders[5])
-
-		// Print separator
-		fmt.Println(strings.Repeat("-", 120))
+		// Format and print the struct fields as a table row
+		fmt.Printf("| %-15s | %-20s | %-20s | %-20s | %-20s | %-15s | %-15s | %-10s | %-10s | %-25s | %-10d | %-10d |\n",
+			"Timestamp", "From Address", "From Owner", "To Address", "To Owner", "Amount", "Token Address", "Symbol", "Chain", "Network", "Tx Hash", "Decimals", "Position")
 
 		// Listen for messages
 		for {
@@ -106,15 +80,17 @@ var SubscribeCmd = &cobra.Command{
 				return
 			}
 
-			var event map[string]interface{}
-			err = json.Unmarshal(message, &event)
+			var transfer lib.FungibleTokenTransfer
+			err = json.Unmarshal(message, &transfer)
 			if err != nil {
+				log.Printf("raw message %s", message)
 				log.Println("Error unmarshalling message:", err)
 				return
 			}
-			//log.Printf("%+v", event)
-			renderEventTable(event)
+
+			renderTokenTransferAsTableRow(transfer)
 		}
+
 	},
 }
 

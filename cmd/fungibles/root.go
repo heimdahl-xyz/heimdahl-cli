@@ -10,7 +10,8 @@ var FungibleCmd = &cobra.Command{
 }
 
 func init() {
-	FungibleCmd.AddCommand(SubscribeCmd)
+	//FungibleCmd.AddCommand(SubscribeCmd)
+	FungibleCmd.AddCommand(ListCmd)
 	//EventCmd.AddCommand(ListCmd)
 	//EventCmd.AddCommand(CrossListenCmd)
 }
