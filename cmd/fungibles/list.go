@@ -9,6 +9,9 @@ import (
 	"net/http"
 )
 
+var page int
+var perPage int
+
 // ListCmd represents the listen command
 var ListCmd = &cobra.Command{
 	Use:   "list [pattern]",
@@ -27,7 +30,7 @@ var ListCmd = &cobra.Command{
 		pattern := args[0]
 
 		// Prepare the WebSocket URL
-		hurl := fmt.Sprintf("%s/v1/transfers/list/%s", config.GetHost(), pattern)
+		hurl := fmt.Sprintf("%s/v1/transfers/list/%s?page=%d&pageSize=%d", config.GetHost(), pattern, page, perPage)
 		log.Println("hurl ", hurl)
 		req, _ := http.NewRequest(http.MethodGet, hurl, nil)
 
@@ -54,4 +57,9 @@ var ListCmd = &cobra.Command{
 		//renderTokenTransferAsTableRow(transfer)
 
 	},
+}
+
+func init() {
+	ListCmd.Flags().IntVar(&page, "page", 0, "Page of returned results")
+	ListCmd.Flags().IntVar(&perPage, "perPage", 20, "Size of page")
 }
