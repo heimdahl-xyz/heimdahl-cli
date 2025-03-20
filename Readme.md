@@ -7,11 +7,11 @@ is a general purpose command line tool that aims to provide convenient way to ac
 
 ## Features
 
+- **Unified access to data across EVM, Solana and Tron**: Realtime and historic data across major EVM, Solana and Tron.
 - **Query Indexed Blockchain Events via REST API**: Retrieve smart contracts events data already pre-indexed on backend.
 - **Direct sourcing from in-house Ethereum nodes**: Get data directly from blockchain without any middlemen (Alchemy,
-  Infura etc) with more nodes to come.
-- **Unpacked data** : Get decoded data from events with parsing via ABI.
-- **Unified API**: Access multiple chains events data with a single API.
+  Infura etc) with more nodes to come.  
+- **Unpacked data** : Get decoded data from events decoded and typed based on contract's ABI.
 - **Zero Configuration**: No need to run your own infrastructure or indexers.
 - **REST API**: Access blockchain data via REST API to eliminate need for complex GraphQL querying
 - **Built with Go**: Fast, portable, and efficient CLI with zero configuration and underlying dependency.
@@ -33,7 +33,7 @@ is a general purpose command line tool that aims to provide convenient way to ac
 You can pick pre-build binaries from the [releases](https://github.com/heimdahl-xyz/heimdahl-cli/releases) page.
 
 ```bash
-$ wget https://github.com/heimdahl-xyz/heimdahl-cli/releases/download/heimdahl-cli-dc9e278/heimdahl-cli-linux-amd64.tar.gz
+$ wget https://github.com/heimdahl-xyz/heimdahl-cli/releases/download/heimdahl-cli-{latest-release}/heimdahl-cli-linux-amd64.tar.gz
 $ tar -xzvf heimdahl-linux-amd64.tar.gz 
 $ mv heimdahl-linux-amd64 heimdahl
 $ ./heimdahl
