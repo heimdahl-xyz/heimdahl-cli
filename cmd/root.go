@@ -6,8 +6,9 @@ import (
 	"github.com/heimdahl-xyz/heimdahl-cli/cmd/contract"
 	"github.com/heimdahl-xyz/heimdahl-cli/cmd/event"
 	"github.com/heimdahl-xyz/heimdahl-cli/cmd/stats"
+	"github.com/heimdahl-xyz/heimdahl-cli/cmd/swaps"
+	"github.com/heimdahl-xyz/heimdahl-cli/cmd/transfers"
 	"github.com/heimdahl-xyz/heimdahl-cli/config"
-	"github.com/heimdahl-xyz/heimdahl-cli/cmd/fungibles"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -45,8 +46,8 @@ func init() {
 	RootCmd.AddCommand(contract.ContractCmd)
 	RootCmd.AddCommand(chain.ChainCmd)
 	RootCmd.AddCommand(event.EventCmd)
-	RootCmd.AddCommand(fungibles.FungibleCmd)
-
+	RootCmd.AddCommand(transfers.TransferCmd)
+	RootCmd.AddCommand(swaps.SwapCmd)
 	// Under construction
 	RootCmd.AddCommand(stats.StatsCmd)
 }

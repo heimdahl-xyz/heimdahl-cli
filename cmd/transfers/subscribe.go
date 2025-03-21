@@ -1,4 +1,4 @@
-package fungibles
+package transfers
 
 import (
 	"encoding/json"
