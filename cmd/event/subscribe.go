@@ -71,7 +71,7 @@ var SubscribeCmd = &cobra.Command{
 		// Prepare the WebSocket URL
 		wsURL := fmt.Sprintf("%s/v1/events/stream/%s?api_key=%s", config.GetWsHost(), pattern, config.GetApiKey())
 
-		log.Println("Connecting to WebSocket: ", wsURL)
+		//log.Println("Connecting to WebSocket: ", wsURL)
 
 		//log.Println(wsURL)
 		headers := make(http.Header)
