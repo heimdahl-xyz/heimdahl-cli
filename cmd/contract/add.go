@@ -22,8 +22,6 @@ type ContractParams struct {
 }
 
 var (
-	chain      string
-	network    string
 	eventNames string
 	rawABI     string
 	rawABIFile string
@@ -111,8 +109,7 @@ Arguments:
 }
 
 func init() {
-	AddCmd.Flags().StringVarP(&chain, "chain", "c", "ethereum", "Blockchain network (eg. ethereum, required)")
-	AddCmd.Flags().StringVarP(&network, "network", "n", "mainnet", "Blockchain network (eg. mainnet, required)")
+
 	AddCmd.Flags().StringVarP(&rawABI, "abi", "r", "", "Raw ABI (optional)")
 	AddCmd.Flags().StringVarP(&rawABIFile, "abi_file", "f", "", "Raw ABI file path (optional)")
 }

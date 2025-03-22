@@ -9,8 +9,15 @@ var ContractCmd = &cobra.Command{
 	Short: "Contract subcommands",
 }
 
+var (
+	chain   string
+	network string
+)
+
 func init() {
+
 	ContractCmd.AddCommand(AddCmd)
 	ContractCmd.AddCommand(ShowCmd)
 	ContractCmd.AddCommand(ListCmd)
+
 }

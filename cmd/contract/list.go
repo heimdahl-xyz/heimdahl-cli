@@ -15,7 +15,7 @@ var ListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List all contracts",
 	Run: func(cmd *cobra.Command, args []string) {
-		url := fmt.Sprintf("%s/v1/contracts", config.GetHost()) // Use the global host variable
+		url := fmt.Sprintf("%s/v1/contracts?chain=%s&network=%s", config.GetHost(), chain, network) // Use the global host variable
 
 		req, err := http.NewRequest("GET", url, nil)
 		if err != nil {
@@ -51,6 +51,11 @@ var ListCmd = &cobra.Command{
 			return
 		}
 
+		if len(contractInfos) == 0 {
+			fmt.Printf("Could not find indexed contracts for %s network %s\n", chain, network)
+			return
+		}
+
 		// Then data rows
 		for _, contractInfo := range contractInfos {
 			fmt.Printf("Chain:            %s\n", contractInfo.Chain)
@@ -65,4 +70,9 @@ var ListCmd = &cobra.Command{
 		}
 		fmt.Println()
 	},
+}
+
+func init() {
+	ListCmd.Flags().StringVarP(&chain, "chain", "c", "ethereum", "Blockchain name (eg. ethereum, required)")
+	ListCmd.Flags().StringVarP(&network, "network", "n", "mainnet", "Blockchain network (eg. mainnet, required)")
 }
