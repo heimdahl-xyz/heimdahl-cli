@@ -1,4 +1,4 @@
-package swaps
+package swap
 
 import (
 	"github.com/spf13/cobra"

@@ -1,4 +1,4 @@
-package transfers
+package transfer
 
 import (
 	"github.com/spf13/cobra"
@@ -10,7 +10,7 @@ var TransferCmd = &cobra.Command{
 }
 
 func init() {
-	//TransferCmd.AddCommand(SubscribeCmd)
+	TransferCmd.AddCommand(SubscribeCmd)
 	TransferCmd.AddCommand(ListCmd)
 	//EventCmd.AddCommand(ListCmd)
 	//EventCmd.AddCommand(CrossListenCmd)

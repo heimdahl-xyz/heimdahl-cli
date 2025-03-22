@@ -1,4 +1,4 @@
-package transfers
+package transfer
 
 import (
 	"encoding/csv"
@@ -266,7 +266,7 @@ var ListCmd = &cobra.Command{
 		pattern := args[0]
 
 		// Prepare the WebSocket URL
-		hurl := fmt.Sprintf("%s/v1/transfers/list/%s?page=%d&pageSize=%d", config.GetHost(), pattern, page, perPage)
+		hurl := fmt.Sprintf("%s/v1/transfer/list/%s?page=%d&pageSize=%d", config.GetHost(), pattern, page, perPage)
 
 		req, _ := http.NewRequest(http.MethodGet, hurl, nil)
 

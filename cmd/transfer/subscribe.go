@@ -1,4 +1,4 @@
-package transfers
+package transfer
 
 import (
 	"encoding/json"
@@ -51,7 +51,7 @@ var SubscribeCmd = &cobra.Command{
 		pattern := args[0]
 
 		// Prepare the WebSocket URL
-		wsURL := fmt.Sprintf("%s/v1/transfers/%s", config.GetWsHost(), pattern)
+		wsURL := fmt.Sprintf("%s/v1/transfer/stream/%s?api_key=%s", config.GetWsHost(), pattern, config.GetApiKey())
 
 		//log.Println(wsURL)
 		headers := make(http.Header)
@@ -68,9 +68,28 @@ var SubscribeCmd = &cobra.Command{
 		}
 		defer conn.Close()
 
+		// separate goroutine to listen for signals
+		go func() {
+			<-signalChannel
+			os.Exit(0)
+		}()
+
 		// Format and print the struct fields as a table row
+
 		fmt.Printf("| %-15s | %-20s | %-20s | %-20s | %-20s | %-15s | %-15s | %-10s | %-10s | %-25s | %-10d | %-10d |\n",
-			"Timestamp", "From Address", "From Owner", "To Address", "To Owner", "Amount", "Token Address", "Symbol", "Chain", "Network", "Tx Hash", "Decimals", "Position")
+			"Timestamp",
+			"From Address",
+			"From Owner",
+			"To Address",
+			"To Owner",
+			"Amount",
+			"Token Address",
+			"Symbol",
+			"Chain",
+			"Network",
+			"Tx Hash",
+			"Decimals",
+			"Position")
 
 		// Listen for messages
 		for {
@@ -79,7 +98,7 @@ var SubscribeCmd = &cobra.Command{
 				log.Println("Error reading message:", err)
 				return
 			}
-
+			//log.Println(string(message))
 			var transfer lib.FungibleTokenTransfer
 			err = json.Unmarshal(message, &transfer)
 			if err != nil {
@@ -87,14 +106,8 @@ var SubscribeCmd = &cobra.Command{
 				log.Println("Error unmarshalling message:", err)
 				return
 			}
-
-			renderTokenTransferAsTableRow(transfer)
+			PrintTransfer(&transfer)
 		}
 
 	},
-}
-
-func init() {
-	//SubscribeCmd.Flags().StringVarP(&chain, "chain", "c", "ethereum", "Blockchain type  (eg. ethereum, required)")
-	//SubscribeCmd.Flags().StringVarP(&network, "network", "w", "mainnet", "Blockchain network (eg. mainnet, required)")
 }

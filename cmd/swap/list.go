@@ -1,4 +1,4 @@
-package swaps
+package swap
 
 import (
 	"fmt"
@@ -30,7 +30,7 @@ var ListCmd = &cobra.Command{
 		pattern := args[0]
 
 		// Prepare the WebSocket URL
-		hurl := fmt.Sprintf("%s/v1/swaps/list/%s?page=%d&pageSize=%d", config.GetHost(), pattern, page, perPage)
+		hurl := fmt.Sprintf("%s/v1/swap/list/%s?page=%d&pageSize=%d", config.GetHost(), pattern, page, perPage)
 
 		req, _ := http.NewRequest(http.MethodGet, hurl, nil)
 
