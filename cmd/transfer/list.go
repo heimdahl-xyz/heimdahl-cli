@@ -34,8 +34,8 @@ type Transfer struct {
 	Position     int64  `json:"position"`
 }
 
-// TokenData represents the structure of the JSON data
-type TokenData struct {
+// TokenResponse represents the structure of the JSON data
+type TokenResponse struct {
 	Meta struct {
 		Timestamp int64    `json:"timestamp"`
 		Chains    []string `json:"chains"`
@@ -45,14 +45,6 @@ type TokenData struct {
 		Total     int      `json:"total"`
 	} `json:"meta"`
 	Transfers []Transfer `json:"transfer"`
-}
-
-// formatAddress shortens an Ethereum address for display
-func formatAddress(address string) string {
-	if len(address) < 12 {
-		return address
-	}
-	return address[:6] + "..." + address[len(address)-4:]
 }
 
 // formatAmount converts token amount based on decimals
@@ -87,7 +79,7 @@ func formatTimestamp(timestamp int64) string {
 
 // RenderTransfersTable renders the token transfer as a table
 func RenderTransfersTable(jsonData []byte) error {
-	var tokenData TokenData
+	var tokenData TokenResponse
 	err := json.Unmarshal(jsonData, &tokenData)
 	if err != nil {
 		return fmt.Errorf("error parsing JSON: %v", err)
@@ -170,7 +162,7 @@ func RenderTransfersTable(jsonData []byte) error {
 
 // RenderTransfersToCSV exports token transfer as CSV to stdout
 func RenderTransfersToCSV(jsonData []byte) error {
-	var tokenData TokenData
+	var tokenData TokenResponse
 	err := json.Unmarshal(jsonData, &tokenData)
 	if err != nil {
 		return fmt.Errorf("error parsing JSON: %v", err)
