@@ -77,35 +77,31 @@ func isReplayMetaField(field string) bool {
 
 // SubscribeCmd represents the listen command
 var ListCmd = &cobra.Command{
-	Use:   "list [address] [event]",
+	Use:   "list [pattern]",
 	Short: "List events for contract",
 	Long: `List collected events for contract 
-
 Arguments:
-  address - The contract address (required) (eg. 0xdAC17F958D2ee523a2206206994597C13D831ec7)
-  event-name   - Name of the event (eg. Transfer),`,
-	Args: cobra.ExactArgs(2), // Expect exactly 2 arguments
+	pattern - The search pattern (required) (eg. ethereum.mainnet.0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2.Transfer)`,
+	Args: cobra.ExactArgs(1), // Expect exactly 2 arguments
 
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) < 2 {
+		if len(args) < 1 {
 			cmd.Help()
 			return
 		}
 
-		address := args[0]
-		event := args[1]
+		pattern := args[0]
 
 		page, _ := cmd.Flags().GetInt("page")
 		perpage, _ := cmd.Flags().GetInt("perPage")
 
 		// Prepare the WebSocket URL
-		httpUrl := fmt.Sprintf("%s/v1/%s/events/%s/%s?page=%d&per_page=%d", config.GetHost(), chain, address, event, page, perpage)
-
+		httpUrl := fmt.Sprintf("%s/v1/events/list/%s?page=%d&pageSize=%d", config.GetHost(), pattern, page, perpage)
+		//log.Println("url ", httpUrl)
 		headers := make(http.Header)
 
 		headers.Set("Authorization", "Bearer "+config.GetApiKey())
 		headers.Set("Content-Type", "application/json")
-
 		req, _ := http.NewRequest(http.MethodGet, httpUrl, nil)
 
 		req.Header = headers

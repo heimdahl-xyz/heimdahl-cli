@@ -15,14 +15,12 @@ import (
 
 // Assuming we have event as map[string]interface{}
 func renderEventTable(event map[string]interface{}) {
-	//log.Printf("%+v", event)
-
-	//// Format known fields
+	log.Printf("%+v", event)
+	// Format known fields
 	blkn := event["blockNumber"].(float64)
 	blockNum := strconv.FormatInt(int64(blkn), 10)
 	blockHash := fmt.Sprintf("%-15s", event["blockHash"].(string))
 	timestamp := time.Unix(int64(event["blockTimestamp"].(float64)), 0).Format("2006-01-02 15:04:05")
-	//contract := fmt.Sprintf("%-15s", event["contractAddress"].(string))
 
 	var eventData []string
 	for k, v := range event {
@@ -54,25 +52,24 @@ func isMetaField(field string) bool {
 
 // SubscribeCmd represents the listen command
 var SubscribeCmd = &cobra.Command{
-	Use:   "subscribe [address] [event]",
+	Use:   "subscribe [pattern]",
 	Short: "subscribe to realtime events for contract",
 	Long: `Subscribe to realtime events for contract 
 	Arguments:
-	  address - The contract address (required) (eg. 0xdAC17F958D2ee523a2206206994597C13D831ec7)
-	  event-name   - Name of the event (eg. Transfer),`,
-	Args: cobra.ExactArgs(2), // Expect exactly 2 arguments
+	  pattern - The search pattern (required) (eg. ethereum.mainnet.0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2.Transfer)`,
+
+	Args: cobra.ExactArgs(1), // Expect exactly 2 arguments
 
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) < 2 {
+		if len(args) < 1 {
 			cmd.Help()
 			return
 		}
 
-		address := args[0]
-		event := args[1]
+		pattern := args[0]
 
 		// Prepare the WebSocket URL
-		wsURL := fmt.Sprintf("%s/v1/%s/listen/%s/%s?api_key=%s", config.GetWsHost(), chain, address, event, config.GetApiKey())
+		wsURL := fmt.Sprintf("%s/v1/events/stream/%s?api_key=%s", config.GetWsHost(), pattern, config.GetApiKey())
 
 		log.Println("Connecting to WebSocket: ", wsURL)
 
@@ -120,9 +117,4 @@ var SubscribeCmd = &cobra.Command{
 			renderEventTable(event)
 		}
 	},
-}
-
-func init() {
-	SubscribeCmd.Flags().StringVarP(&chain, "chain", "c", "ethereum", "Blockchain type  (eg. ethereum, required)")
-	SubscribeCmd.Flags().StringVarP(&network, "network", "w", "mainnet", "Blockchain network (eg. mainnet, required)")
 }
