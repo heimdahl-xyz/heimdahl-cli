@@ -44,7 +44,7 @@ type TokenData struct {
 		PerPage   int      `json:"per_page"`
 		Total     int      `json:"total"`
 	} `json:"meta"`
-	Transfers []Transfer `json:"transfers"`
+	Transfers []Transfer `json:"transfer"`
 }
 
 // formatAddress shortens an Ethereum address for display
@@ -85,7 +85,7 @@ func formatTimestamp(timestamp int64) string {
 	return t.Format("2006-01-02 15:04:05")
 }
 
-// RenderTransfersTable renders the token transfers as a table
+// RenderTransfersTable renders the token transfer as a table
 func RenderTransfersTable(jsonData []byte) error {
 	var tokenData TokenData
 	err := json.Unmarshal(jsonData, &tokenData)
@@ -160,7 +160,7 @@ func RenderTransfersTable(jsonData []byte) error {
 	// Print metadata
 	fmt.Println("\nMetadata:")
 	fmt.Printf("Timestamp: %s\n", formatTimestamp(tokenData.Meta.Timestamp))
-	fmt.Printf("Total transfers: %d\n", tokenData.Meta.Total)
+	fmt.Printf("Total transfer: %d\n", tokenData.Meta.Total)
 	fmt.Printf("Page: %d of %d\n", tokenData.Meta.Page+1, (tokenData.Meta.Total+tokenData.Meta.PerPage-1)/tokenData.Meta.PerPage)
 	fmt.Printf("Chains: %s\n", strings.Join(tokenData.Meta.Chains, ", "))
 	fmt.Printf("Tokens: %s\n", strings.Join(tokenData.Meta.Tokens, ", "))
@@ -168,7 +168,7 @@ func RenderTransfersTable(jsonData []byte) error {
 	return nil
 }
 
-// RenderTransfersToCSV exports token transfers as CSV to stdout
+// RenderTransfersToCSV exports token transfer as CSV to stdout
 func RenderTransfersToCSV(jsonData []byte) error {
 	var tokenData TokenData
 	err := json.Unmarshal(jsonData, &tokenData)
@@ -252,7 +252,7 @@ func printLine(width int) {
 var ListCmd = &cobra.Command{
 	Use:   "list [pattern]",
 	Short: "list transfers for fungible tokens by pattern",
-	Long: `List fungible token transfers 
+	Long: `List fungible token transfers
 	Arguments:
 	  pattern - search pattern (required) (eg. ethereum.mainnet.usdt.0x1234.0x5677.whale)`,
 	Args: cobra.ExactArgs(1),
