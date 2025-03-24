@@ -44,7 +44,7 @@ type TokenResponse struct {
 		PerPage   int      `json:"per_page"`
 		Total     int      `json:"total"`
 	} `json:"meta"`
-	Transfers []Transfer `json:"transfer"`
+	Transfers []Transfer `json:"transfers"`
 }
 
 // formatAmount converts token amount based on decimals
@@ -113,7 +113,6 @@ func RenderTransfersTable(jsonData []byte) error {
 	}
 	fmt.Println()
 	printLine(totalWidth)
-
 	// Print table rows
 	for _, transfer := range tokenData.Transfers {
 		fmt.Print("|")
@@ -258,7 +257,7 @@ var ListCmd = &cobra.Command{
 		pattern := args[0]
 
 		// Prepare the WebSocket URL
-		hurl := fmt.Sprintf("%s/v1/transfer/list/%s?page=%d&pageSize=%d", config.GetHost(), pattern, page, perPage)
+		hurl := fmt.Sprintf("%s/v1/transfers/list/%s?page=%d&pageSize=%d", config.GetHost(), pattern, page, perPage)
 
 		req, _ := http.NewRequest(http.MethodGet, hurl, nil)
 
@@ -270,7 +269,6 @@ var ListCmd = &cobra.Command{
 			log.Println("failed to perform request %s", err)
 			return
 		}
-
 		b, err := io.ReadAll(resp.Body)
 		if err != nil {
 			log.Println("failed to read response %s", err)
