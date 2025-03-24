@@ -282,6 +282,6 @@ var ListCmd = &cobra.Command{
 
 func init() {
 	ListCmd.Flags().IntVar(&page, "page", 0, "Page of returned results")
-	ListCmd.Flags().IntVar(&perPage, "perPage", 20, "Size of page")
+	ListCmd.Flags().IntVar(&perPage, "perPage", 20, "SizeBucket of page")
 	ListCmd.Flags().StringVar(&formatF, "format", "table", "Output format (table,csv,json)")
 }

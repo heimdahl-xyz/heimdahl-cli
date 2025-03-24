@@ -60,7 +60,7 @@ var ListCmd = &cobra.Command{
 		for _, contractInfo := range contractInfos {
 			fmt.Printf("Chain:            %s\n", contractInfo.Chain)
 			fmt.Printf("Network:          %s\n", contractInfo.Network)
-			fmt.Printf("Contract Name:    %s\n", contractInfo.ContractName)
+			fmt.Printf("Contract Identifier:    %s\n", contractInfo.ContractName)
 			fmt.Printf("Contract Address: %s\n", contractInfo.ContractAddress)
 			fmt.Printf("Events:\n")
 			for _, event := range strings.Split(contractInfo.Events, ",") {

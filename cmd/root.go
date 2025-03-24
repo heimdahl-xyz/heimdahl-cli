@@ -2,9 +2,10 @@ package cmd
 
 import (
 	"fmt"
-	chain "github.com/heimdahl-xyz/heimdahl-cli/cmd/chains"
+	"github.com/heimdahl-xyz/heimdahl-cli/cmd/chain"
 	"github.com/heimdahl-xyz/heimdahl-cli/cmd/contract"
 	"github.com/heimdahl-xyz/heimdahl-cli/cmd/event"
+	"github.com/heimdahl-xyz/heimdahl-cli/cmd/subscription"
 	"github.com/heimdahl-xyz/heimdahl-cli/cmd/swap"
 	"github.com/heimdahl-xyz/heimdahl-cli/cmd/transfer"
 	"github.com/heimdahl-xyz/heimdahl-cli/config"
@@ -47,4 +48,5 @@ func init() {
 	RootCmd.AddCommand(event.EventCmd)
 	RootCmd.AddCommand(transfer.TransferCmd)
 	RootCmd.AddCommand(swap.SwapCmd)
+	RootCmd.AddCommand(subscription.SubscriptionCmd)
 }

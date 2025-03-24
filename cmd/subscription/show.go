@@ -1,4 +1,4 @@
-package contract
+package subscription
 
 import (
 	"encoding/json"
@@ -10,31 +10,23 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type ContractInfo struct {
-	Chain           string `json:"chain"`
-	Network         string `json:"network"`
-	ContractName    string `json:"contract_name"`
-	ContractAddress string `json:"contract_address"`
-	Events          string `json:"events"`
-	ABI             string `json:"-"`
+type ChainInfo struct {
+	Chain   string `json:"chain_name"`
+	Network string `json:"chain_network"`
+	ChainID int    `json:"chain_id"`
 }
 
-var address string
+var (
+	chain   string
+	network string
+)
 
 var ShowCmd = &cobra.Command{
-	Use:   "show [address]",
-	Short: "Show contract by address",
-	Long: `Show contract metadata by address. 
-		Usage: heimdahl contract show 0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2`,
-
+	Use:   "show",
+	Short: "Show subsciption information",
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) != 1 {
-			fmt.Println("Usage: heimdahl contract show [address]")
-			return
-		}
-		address := args[0]
-
-		url := fmt.Sprintf("%s/v1/contracts/%s", config.GetHost(), address) // Use the global host variable
+		// change the endpoint
+		url := fmt.Sprintf("%s/v1/chain/%s/%s", config.GetHost(), chain, network) // Use the global host variable
 		req, err := http.NewRequest(http.MethodGet, url, nil)
 		if err != nil {
 			fmt.Println("Error making GET request:", err)
@@ -63,21 +55,19 @@ var ShowCmd = &cobra.Command{
 			return
 		}
 
-		var contractInfo ContractInfo
+		var contractInfo ChainInfo
 		err = json.Unmarshal(body, &contractInfo)
 		if err != nil {
 			fmt.Println("Error unmarshalling JSON:", err)
 			return
 		}
 
-		fmt.Printf("Network: %s\nContract Identifier: %s\nContract Address: %s\nEvents: %s",
-			contractInfo.Network,
-			contractInfo.ContractName,
-			contractInfo.ContractAddress,
-			contractInfo.Events)
+		fmt.Printf("Chain: %s\nNetwork: %s\nChain ID:%d\n ", contractInfo.Chain, contractInfo.Network, contractInfo.ChainID)
 	},
 }
 
 func init() {
-
+	ShowCmd.Flags().StringVarP(&chain, "chain", "c", "", "Chain name (required)")
+	ShowCmd.Flags().StringVarP(&network, "network", "n", "mainnet", "Chain network  (eg. mainnet, sepolia)")
+	_ = ShowCmd.MarkFlagRequired("chain")
 }
