@@ -86,6 +86,9 @@ func RenderTransfersTable(jsonData []byte) error {
 		return fmt.Errorf("error parsing JSON: %v", err)
 	}
 
+	if len(tokenData.Transfers) == 0 {
+		return fmt.Errorf("no transfers found")
+	}
 	// Define column widths
 	cols := []struct {
 		title string
@@ -286,7 +289,7 @@ var ListCmd = &cobra.Command{
 		}
 
 		if err != nil {
-			log.Println("failed to render response into table %s", err)
+			log.Printf("failed to render response into table %s\n", err)
 			return
 		}
 	},
