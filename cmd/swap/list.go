@@ -61,7 +61,6 @@ func formatTimestamp(timestamp int64) string {
 
 // RenderSwapsTable renders the token swaps as a table
 func RenderSwapsTable(jsonData []byte) error {
-	log.Printf("%s", jsonData)
 	var swapData SwapData
 	err := json.Unmarshal(jsonData, &swapData)
 	if err != nil {
@@ -282,6 +281,6 @@ var ListCmd = &cobra.Command{
 
 func init() {
 	ListCmd.Flags().IntVar(&page, "page", 0, "Page of returned results")
-	ListCmd.Flags().IntVar(&perPage, "perPage", 20, "SizeBucket of page")
+	ListCmd.Flags().IntVar(&perPage, "perPage", 20, "Results to return  per page")
 	ListCmd.Flags().StringVar(&formatF, "format", "table", "Output format (table,csv,json)")
 }

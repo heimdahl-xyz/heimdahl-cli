@@ -79,6 +79,7 @@ func formatTimestamp(timestamp int64) string {
 
 // RenderTransfersTable renders the token transfer as a table
 func RenderTransfersTable(jsonData []byte) error {
+	log.Printf("payload %s", jsonData)
 	var tokenData TokenResponse
 	err := json.Unmarshal(jsonData, &tokenData)
 	if err != nil {

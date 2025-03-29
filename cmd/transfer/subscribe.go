@@ -100,7 +100,7 @@ var SubscribeCmd = &cobra.Command{
 		pattern := args[0]
 
 		// Prepare the WebSocket URL
-		wsURL := fmt.Sprintf("%s/v1/transfer/stream/%s?api_key=%s", config.GetWsHost(), pattern, config.GetApiKey())
+		wsURL := fmt.Sprintf("%s/v1/transfers/stream/%s?api_key=%s", config.GetWsHost(), pattern, config.GetApiKey())
 
 		//log.Println(wsURL)
 		headers := make(http.Header)
@@ -125,7 +125,7 @@ var SubscribeCmd = &cobra.Command{
 
 		// Format and print the struct fields as a table row
 
-		fmt.Printf("| %-15s | %-20s | %-20s | %-20s | %-20s | %-15s | %-15s | %-10s | %-10s | %-25s | %-10d | %-10d |\n",
+		fmt.Printf("| %-15s | %-20s | %-20s | %-20s | %-20s | %-15s | %-15s | %-10s | %-10s | %-25s | %-10s | %-10s | %-10s |\n",
 			"Timestamp",
 			"From Address",
 			"From Owner",
