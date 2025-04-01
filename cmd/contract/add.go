@@ -109,7 +109,8 @@ Arguments:
 }
 
 func init() {
-
+	AddCmd.Flags().StringVarP(&chain, "chain", "c", "ethereum", "Blockchain name (eg. ethereum, required)")
+	AddCmd.Flags().StringVarP(&network, "network", "n", "mainnet", "Blockchain network (eg. mainnet, required)")
 	AddCmd.Flags().StringVarP(&rawABI, "abi", "r", "", "Raw ABI (optional)")
 	AddCmd.Flags().StringVarP(&rawABIFile, "abi_file", "f", "", "Raw ABI file path (optional)")
 }

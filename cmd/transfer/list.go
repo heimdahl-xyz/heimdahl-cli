@@ -5,9 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/heimdahl-xyz/heimdahl-cli/config"
+	format2 "github.com/heimdahl-xyz/heimdahl-cli/format"
 	"github.com/spf13/cobra"
 	"io"
 	"log"
+	"math/big"
 	"net/http"
 	"os"
 	"strconv"
@@ -21,17 +23,17 @@ var format string
 
 // Transfer represents a token transfer transaction
 type Transfer struct {
-	Timestamp    int64  `json:"timestamp"`
-	FromAddress  string `json:"from_address"`
-	ToAddress    string `json:"to_address"`
-	Amount       int64  `json:"amount"`
-	TokenAddress string `json:"token_address"`
-	Symbol       string `json:"symbol"`
-	Chain        string `json:"chain"`
-	Network      string `json:"network"`
-	TxHash       string `json:"tx_hash"`
-	Decimals     int    `json:"decimals"`
-	Position     int64  `json:"position"`
+	Timestamp    int64    `json:"timestamp"`
+	FromAddress  string   `json:"from_address"`
+	ToAddress    string   `json:"to_address"`
+	Amount       *big.Int `json:"amount"`
+	TokenAddress string   `json:"token_address"`
+	Symbol       string   `json:"symbol"`
+	Chain        string   `json:"chain"`
+	Network      string   `json:"network"`
+	TxHash       string   `json:"tx_hash"`
+	Decimals     int      `json:"decimals"`
+	Position     int64    `json:"position"`
 }
 
 // TokenResponse represents the structure of the JSON data
@@ -79,7 +81,6 @@ func formatTimestamp(timestamp int64) string {
 
 // RenderTransfersTable renders the token transfer as a table
 func RenderTransfersTable(jsonData []byte) error {
-	log.Printf("payload %s", jsonData)
 	var tokenData TokenResponse
 	err := json.Unmarshal(jsonData, &tokenData)
 	if err != nil {
@@ -131,7 +132,7 @@ func RenderTransfersTable(jsonData []byte) error {
 		fmt.Printf(" %s |", transfer.ToAddress)
 
 		// Amount
-		fmt.Printf(" %-*s |", cols[3].width, formatAmount(transfer.Amount, transfer.Decimals))
+		fmt.Printf(" %-*s |", cols[3].width, format2.FormatAmountBigInt(transfer.Amount, uint8(transfer.Decimals)))
 
 		// Symbol
 		fmt.Printf(" %-*s |", cols[4].width, transfer.Symbol)
@@ -202,8 +203,7 @@ func RenderTransfersToCSV(jsonData []byte) error {
 			formatTimestamp(transfer.Timestamp),
 			transfer.FromAddress,
 			transfer.ToAddress,
-			strconv.FormatInt(transfer.Amount, 10),
-			formatAmount(transfer.Amount, transfer.Decimals),
+			format2.FormatAmountBigInt(transfer.Amount, uint8(transfer.Decimals)),
 			transfer.Symbol,
 			transfer.TokenAddress,
 			transfer.Chain,
