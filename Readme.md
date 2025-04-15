@@ -140,7 +140,7 @@ Events:
 #### List Uniswap V3 Mint events on Ethereum mainnet
 
 ```bash
-$ heimdahl event list 0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640 Mint # Uniswap 
+$ heimdahl event list ethereum.mainnet.0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640.Mint # Uniswap 
 V3 Mint on ethereum
            
 BLOCK#     | TIMESTAMP       | TRANSACTION_HASH                                                  | EVENT_DATA                                          
@@ -155,7 +155,7 @@ t: 51397277183042, amount0: 458518761, owner: 0xC36442b4a4522E871399CD717aBDD847
 #### List WETH Transfers on Ethereum mainnet
 
 ```bash
-$ heimdahl event list 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2 Transfer 
+$ heimdahl event list ethereum.mainnet.0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2.Transfer 
 
 BLOCK#     | TIMESTAMP       | TRANSACTION_HASH                                                  | EVENT_DATA                                                 ----------------------------------------------------------------------------------------------------                                                          
 21679357 | 2025-01-22T10:13:38Z | 0x2b1cbb5891849ae99a1436451add7c2212b0b782c8b95259d52b515f20afef9f | dst: 0xB86E490E72F050c424383d514362Dc61DaBB1Cc3, src: 0xdad17D7E3Abbebe1ea5782962398113422F10EE0, wad: 300852659872045380                                                                                            
