@@ -12,6 +12,7 @@ is a general purpose command line tool that aims to provide convenient way to ac
 - **Direct sourcing from in-house Ethereum nodes**: Get data directly from blockchain without any middlemen (Alchemy,
   Infura etc) with more nodes to come.  
 - **Unpacked data** : Get decoded data from events decoded and typed based on contract's ABI.
+- **Listen to Realtime Events**: Listen to events via Websocket API.
 - **Zero Configuration**: No need to run your own infrastructure or indexers.
 - **REST API**: Access blockchain data via REST API to eliminate need for complex GraphQL querying
 - **Built with Go**: Fast, portable, and efficient CLI with zero configuration and underlying dependency.
@@ -19,12 +20,8 @@ is a general purpose command line tool that aims to provide convenient way to ac
 
 ### Features in development
 
-- **Fully in-house Solana node**: Access Solana data with same ease.
-- **Listen to Realtime Events**: Listen to events via Websocket API.
-- **Multiple Blockchain Support**: Supports for Arbitrum and more(in development).
 - **Advanced filtering** Filter events by block number, timestamp, and more.
 - **Block, Transactions and Receipts Indexing** Indexing of blocks, transactions and receipts for advanced analytics.
-- **Realtime Websocket API**: Listen to events in real-time via Websocket API.
 
 - and many more to come ;)
 
