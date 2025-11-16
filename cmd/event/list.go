@@ -8,6 +8,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -75,6 +76,48 @@ func isReplayMetaField(field string) bool {
 	return metaFields[field]
 }
 
+// PrintEventDetails prints EventDetails in a clean, console-friendly format.
+// Keys in each event map are sorted alphabetically.
+func PrintEventDetails(e EventDetails) {
+	separator := strings.Repeat("-", 75)
+
+	// --- META SECTION ---
+	fmt.Println(separator)
+	fmt.Println("META")
+	fmt.Println(separator)
+
+	if len(e.Details) < 1 {
+		return
+	}
+
+	// NOTE: adapt these fields to your actual EventMeta struct.
+	fmt.Printf("Timestamp : %s\n", e.Details[0]["blockTimestamp"])
+	fmt.Printf("Page      : %d\n", e.Meta.Page)
+	fmt.Printf("Per Page  : %d\n", e.Meta.PerPage)
+	fmt.Printf("Total     : %d\n", e.Meta.Total)
+
+	// --- EVENTS SECTION ---
+	for _, event := range e.Details {
+		fmt.Println(separator)
+
+		// Collect keys
+		keys := make([]string, 0, len(event))
+		for k := range event {
+			keys = append(keys, k)
+		}
+
+		// Sort alphabetically
+		sort.Strings(keys)
+
+		// Print in order
+		for _, k := range keys {
+			fmt.Printf("%-10s: %v\n", k, event[k])
+		}
+	}
+
+	fmt.Println(separator)
+}
+
 // SubscribeCmd represents the listen command
 var ListCmd = &cobra.Command{
 	Use:   "list [pattern]",
@@ -121,25 +164,7 @@ Arguments:
 			log.Fatalf("unable to parse details %s", err)
 		}
 
-		theaders := []string{
-			"BLOCK#",
-			"TIMESTAMP",
-			"TRANSACTION_HASH",
-			"EVENT_DATA"}
-
-		//// Print header row
-		fmt.Printf("%-10s | %-15s | %-65s | %-15s\n",
-			theaders[0],
-			theaders[1],
-			theaders[2],
-			theaders[3],
-		)
-
-		fmt.Println(strings.Repeat("-", 100))
-
-		for i := range details.Details {
-			renderReplayEventTable(details.Details[i])
-		}
+		PrintEventDetails(details)
 	},
 }
 

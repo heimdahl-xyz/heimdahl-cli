@@ -49,118 +49,75 @@ type TokenResponse struct {
 	Transfers []Transfer `json:"transfers"`
 }
 
-// formatAmount converts token amount based on decimals
-func formatAmount(amount int64, decimals int) string {
-	if decimals == 0 {
-		return fmt.Sprintf("%d", amount)
-	}
-
-	divisor := int64(1)
-	for i := 0; i < decimals; i++ {
-		divisor *= 10
-	}
-
-	whole := amount / divisor
-	fraction := amount % divisor
-
-	// Format with appropriate trailing zeros
-	fractionStr := fmt.Sprintf("%0*d", decimals, fraction)
-	// Trim trailing zeros
-	fractionStr = strings.TrimRight(fractionStr, "0")
-	if fractionStr == "" {
-		return fmt.Sprintf("%d", whole)
-	}
-	return fmt.Sprintf("%d.%s", whole, fractionStr)
-}
-
 // formatTimestamp converts Unix timestamp to human-readable time
 func formatTimestamp(timestamp int64) string {
 	t := time.Unix(timestamp, 0)
 	return t.Format("2006-01-02 15:04:05")
 }
 
-// RenderTransfersTable renders the token transfer as a table
-func RenderTransfersTable(jsonData []byte) error {
-	var tokenData TokenResponse
-	err := json.Unmarshal(jsonData, &tokenData)
+// formatAmount converts *big.Int + decimals into a readable decimal string
+func formatAmount(amount *big.Int, decimals int) string {
+	if amount == nil {
+		return "0"
+	}
+
+	str := amount.String()
+	l := len(str)
+
+	if decimals == 0 {
+		return str
+	}
+
+	if l <= decimals {
+		return "0." + strings.Repeat("0", decimals-l) + str
+	}
+
+	return str[:l-decimals] + "." + str[l-decimals:]
+}
+
+func PrintTokenResponse(jsonData []byte) error {
+	var resp TokenResponse
+	err := json.Unmarshal(jsonData, &resp)
 	if err != nil {
 		return fmt.Errorf("error parsing JSON: %v", err)
 	}
 
-	if len(tokenData.Transfers) == 0 {
-		return fmt.Errorf("no transfers found")
-	}
-	// Define column widths
-	cols := []struct {
-		title string
-		width int
-	}{
-		{"Time", 19},
-		{"From", 42},
-		{"To", 42},
-		{"Amount", 12},
-		{"Symbol", 6},
-		{"Chain", 10},
-		{"TX Hash", 66},
-	}
+	separator := strings.Repeat("-", 75)
 
-	// Calculate total width for the table
-	totalWidth := 1 // Starting with 1 for the left border
-	for _, col := range cols {
-		totalWidth += col.width + 3 // Width + 3 for padding and borders
-	}
+	// --- META SECTION ---
+	fmt.Println(separator)
+	fmt.Println("META")
+	fmt.Println(separator)
 
-	// Print table header
-	printLine(totalWidth)
-	fmt.Print("|")
-	for _, col := range cols {
-		fmt.Printf(" %-*s |", col.width, col.title)
-	}
-	fmt.Println()
-	printLine(totalWidth)
-	// Print table rows
-	for _, transfer := range tokenData.Transfers {
-		fmt.Print("|")
+	ts := time.Unix(resp.Meta.Timestamp, 0).Format("2006-01-02 15:04:05")
 
-		// Time
-		fmt.Printf(" %-*s |", cols[0].width, formatTimestamp(transfer.Timestamp))
+	fmt.Printf("Timestamp : %s\n", ts)
+	fmt.Printf("Chains    : %s\n", strings.Join(resp.Meta.Chains, ", "))
+	fmt.Printf("Tokens    : %s\n", strings.Join(resp.Meta.Tokens, ", "))
+	fmt.Printf("Page      : %d\n", resp.Meta.Page)
+	fmt.Printf("Per Page  : %d\n", resp.Meta.PerPage)
+	fmt.Printf("Total     : %d\n", resp.Meta.Total)
 
-		// From
-		fmt.Printf(" %s |", transfer.FromAddress)
+	// --- TRANSFERS SECTION ---
+	for _, t := range resp.Transfers {
+		fmt.Println(separator)
 
-		// To
-		fmt.Printf(" %s |", transfer.ToAddress)
+		// time conversion
+		transferTime := time.Unix(t.Timestamp, 0).Format("2006-01-02 15:04:05")
 
-		// Amount
-		fmt.Printf(" %-*s |", cols[3].width, format2.FormatAmountBigInt(transfer.Amount, uint8(transfer.Decimals)))
+		// convert amount
+		amountStr := formatAmount(t.Amount, t.Decimals)
 
-		// Symbol
-		fmt.Printf(" %-*s |", cols[4].width, transfer.Symbol)
-
-		// Chain
-		chainNetwork := transfer.Chain
-		if transfer.Network != "" && transfer.Network != "mainnet" {
-			chainNetwork += "." + transfer.Network
-		}
-		fmt.Printf(" %-*s |", cols[5].width, chainNetwork)
-
-		// TX Hash
-		fmt.Printf(" %s |", transfer.TxHash)
-
-		fmt.Println()
+		fmt.Printf("Time     : %s\n", transferTime)
+		fmt.Printf("From     : %s\n", t.FromAddress)
+		fmt.Printf("To       : %s\n", t.ToAddress)
+		fmt.Printf("Amount   : %s\n", amountStr)
+		fmt.Printf("Symbol   : %s\n", t.Symbol)
+		fmt.Printf("Chain    : %s\n", t.Chain)
+		fmt.Printf("TX Hash  : %s\n", t.TxHash)
 	}
 
-	// Print footer
-	printLine(totalWidth)
-
-	// Print metadata
-	fmt.Println("\nMetadata:")
-	fmt.Printf("Timestamp: %s\n", formatTimestamp(tokenData.Meta.Timestamp))
-	fmt.Printf("Total transfer: %d\n", tokenData.Meta.Total)
-	fmt.Printf("Page: %d of %d\n", tokenData.Meta.Page+1, (tokenData.Meta.Total+tokenData.Meta.PerPage-1)/tokenData.Meta.PerPage)
-	fmt.Printf("Chains: %s\n", strings.Join(tokenData.Meta.Chains, ", "))
-	fmt.Printf("Tokens: %s\n", strings.Join(tokenData.Meta.Tokens, ", "))
-
+	fmt.Println(separator)
 	return nil
 }
 
@@ -281,7 +238,7 @@ var ListCmd = &cobra.Command{
 
 		switch format {
 		case "table":
-			err = RenderTransfersTable(b)
+			err = PrintTokenResponse(b)
 		case "csv":
 			err = RenderTransfersToCSV(b)
 		case "json":
