@@ -12,6 +12,7 @@ is a general purpose command line tool that aims to provide convenient way to ac
 - **Direct sourcing from in-house Ethereum nodes**: Get data directly from blockchain without any middlemen (Alchemy,
   Infura etc) with more nodes to come.  
 - **Unpacked data** : Get decoded data from events decoded and typed based on contract's ABI.
+- **Listen to Realtime Events**: Listen to events via Websocket API.
 - **Zero Configuration**: No need to run your own infrastructure or indexers.
 - **REST API**: Access blockchain data via REST API to eliminate need for complex GraphQL querying
 - **Built with Go**: Fast, portable, and efficient CLI with zero configuration and underlying dependency.
@@ -19,12 +20,8 @@ is a general purpose command line tool that aims to provide convenient way to ac
 
 ### Features in development
 
-- **Fully in-house Solana node**: Access Solana data with same ease.
-- **Listen to Realtime Events**: Listen to events via Websocket API.
-- **Multiple Blockchain Support**: Supports for Arbitrum and more(in development).
 - **Advanced filtering** Filter events by block number, timestamp, and more.
 - **Block, Transactions and Receipts Indexing** Indexing of blocks, transactions and receipts for advanced analytics.
-- **Realtime Websocket API**: Listen to events in real-time via Websocket API.
 
 - and many more to come ;)
 
@@ -143,7 +140,7 @@ Events:
 #### List Uniswap V3 Mint events on Ethereum mainnet
 
 ```bash
-$ heimdahl event list 0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640 Mint # Uniswap 
+$ heimdahl event list ethereum.mainnet.0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640.Mint # Uniswap 
 V3 Mint on ethereum
            
 BLOCK#     | TIMESTAMP       | TRANSACTION_HASH                                                  | EVENT_DATA                                          
@@ -158,7 +155,7 @@ t: 51397277183042, amount0: 458518761, owner: 0xC36442b4a4522E871399CD717aBDD847
 #### List WETH Transfers on Ethereum mainnet
 
 ```bash
-$ heimdahl event list 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2 Transfer 
+$ heimdahl event list ethereum.mainnet.0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2.Transfer 
 
 BLOCK#     | TIMESTAMP       | TRANSACTION_HASH                                                  | EVENT_DATA                                                 ----------------------------------------------------------------------------------------------------                                                          
 21679357 | 2025-01-22T10:13:38Z | 0x2b1cbb5891849ae99a1436451add7c2212b0b782c8b95259d52b515f20afef9f | dst: 0xB86E490E72F050c424383d514362Dc61DaBB1Cc3, src: 0xdad17D7E3Abbebe1ea5782962398113422F10EE0, wad: 300852659872045380                                                                                            
